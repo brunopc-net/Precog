@@ -1,0 +1,15 @@
+.alert-box {
+    position: relative;
+    margin:10px;
+    display:inline-block;
+    padding: 20px;
+    height:280px;
+    background:#303134;
+    border-radius:5px;
+    overflow: hidden;
+    font-size: 1.5em;
+}
+
+.alerts {
+    list-style-type: none;
+}
