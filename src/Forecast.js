@@ -16,6 +16,10 @@ function getPrec(hour_fc){
     return hour_fc.precip_mm;
 }
 
+function getWind(hour_fc){
+    return hour_fc.wind_kph;
+}
+
 function getUVIndex(hour_fc){
     return hour_fc.uv;
 }
@@ -31,6 +35,7 @@ function Forecast({forecast}){
                         <td>🕗</td>
                         <td>🌡️</td>
                         <td>🌧️</td>
+                        <td>🌬️</td>
                         <td>☀️</td>
                     </tr>
                 </thead>
@@ -45,6 +50,9 @@ function Forecast({forecast}){
                             </td>
                             <td>
                                 {getPrec(hour_fc)}
+                            </td>
+                            <td>
+                                {getWind(hour_fc)}
                             </td>
                             <td>
                                 {getUVIndex(hour_fc)}

@@ -7,7 +7,7 @@ function Legend(){
             🏭 AQI-US Index<br/>
             ☀️ UV Index<br/>
             🌡️ Temperature, °C<br/>
-            🌬️ Wind<br/>
+            🌬️ Wind, kph<br/>
             🕗 Time<br/>
             🌧️ Precipitations, mm
         </div>
