@@ -6,6 +6,7 @@ import FORECAST_AMOUNT from './config';
 import Alerts from './Alerts';
 import Weather from './Weather';
 import axios from 'axios';
+import Legend from './Legend';
 
 const WEATHER_API_CALL = {
   method: 'GET',
@@ -37,7 +38,7 @@ function getLocalEpoch(){
 
     //The previous hour should be included in forecast
     //Removing 10 minutes from epoch time
-    const localEpoch = (new Date(now - local_offset).getTime())-(50*60);
+    const localEpoch = (new Date(now - local_offset).getTime())-(50*60*1000);
 
     //Converting to seconds to match weather data
 	return localEpoch/1000;
@@ -90,18 +91,11 @@ function App() {
       {aqius !== 0 && <Weather aqius={aqius} weather={weather}/>}
       <div>
         {forecast.length > 0 && <>
-          <Forecast forecast={forecast} />
           <Alerts aqius={aqius} forecast={forecast}/>
+          <Forecast forecast={forecast} />
         </>}
       </div>
-      <div>
-        🏭AQI-US Index&nbsp;&nbsp;&nbsp;
-        ☀️UV Index&nbsp;&nbsp;&nbsp;
-        🌡️Temperature°C&nbsp;&nbsp;&nbsp;
-        🌬️Wind&nbsp;&nbsp;&nbsp;
-        🕗Time&nbsp;&nbsp;&nbsp;
-        🌧️Precipitations, mm
-      </div>
+      <Legend />
     </div>
   );
 }

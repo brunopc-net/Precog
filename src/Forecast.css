@@ -1,7 +1,8 @@
 .forecast-box {
-    margin:10px;
-    display:inline-block;
-    height:320px;
+    margin:auto;
+    margin-top:20px;
+    width: 270px;
+    padding:10px;
     background:#303134;
     border-radius:5px;
     font-size: 1.5em;
@@ -9,11 +10,12 @@
 
 table {
     border-collapse: collapse;
-    margin:8px;
+    margin:0 auto;
+    margin-bottom:20px;
 }
 
 table caption {
-    margin:20px;
+    margin:10px;
     font-weight:bold;
 }
   

@@ -18,12 +18,12 @@ function getAirAlerts(aqius){
         ]
     if(alertLevel.includes("🔴") && aqius > 250)
         return [
-            "🏭🔴 60 minutes max outside exposure with N95😷",
+            "🏭🔴 60min max outside exposure with N95😷",
             "🏭🔴 Close windows, air purifier at high level"
         ]
     if(alertLevel.includes("🔴"))
         return [
-            "🏭🔴 120 minutes max outside exposure with N95😷",
+            "🏭🔴 120min max outside exposure with N95😷",
             "🏭🔴 Close windows, air purifier at moderate level"
         ]   
     if(alertLevel.includes("🟠"))
@@ -79,7 +79,7 @@ function getUVAlerts(forecast){
     const time_to_burn = getTimeToBurn(max_uv);
 
     let recommendations = [
-        "☀️"+getUVTimeAlertLevel(time_before_sunscreen)+" Need sunscreen after "+getTimeString(time_before_sunscreen),
+        "☀️"+getUVTimeAlertLevel(time_before_sunscreen)+" Protect skin after "+getTimeString(time_before_sunscreen),
     ];
     if(time_to_burn !== time_before_sunscreen) recommendations.push(
         "☀️"+getUVIndexAlertLevel(max_uv)+" At level "+max_uv+", skin burns after "+time_to_burn+"min"
@@ -193,7 +193,7 @@ function Alerts({aqius, forecast}){
 
     return (
         <div className="alert-box">
-                <ul className="alerts vertical-centered">
+                <ul className="alerts">
                     {recommendations.map((rec) => 
                         <li key={rec}>{rec}</li>
                     )}
