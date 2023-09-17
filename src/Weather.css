@@ -1,12 +1,12 @@
 .weather-box {
     position: relative;
     width:195px;
-    height:90px;
+    height:80px;
     display:inline-block;
     margin:5px;
 
     background:#303134;
-    font-size:2em;
+    font-size:1.8em;
     border-radius:5px;
 
     overflow:hidden;

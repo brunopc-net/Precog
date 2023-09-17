@@ -10,6 +10,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.App {
+  width: 410px;
+  margin: 0 auto;
+}
+
 .vertical-centered {
   margin: 0;
   padding:0;
