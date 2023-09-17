@@ -1,7 +1,7 @@
 .forecast-box {
     margin:auto;
-    margin-top:20px;
-    width: 270px;
+    margin-top:10px;
+    width: 380px;
     padding:10px;
     background:#303134;
     border-radius:5px;
@@ -15,7 +15,7 @@ table {
 }
 
 table caption {
-    margin:10px;
+    margin:5px;
     font-weight:bold;
 }
   
