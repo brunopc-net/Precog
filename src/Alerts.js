@@ -90,7 +90,7 @@ function getUVAlerts(forecast){
 
 function getHeatAlerts(temp_avg, temp_max){
     //We check if avg max temp is over the trigger or avg temp within 3° of trigger
-    let maxAlertLevel = getTempAlertLevel(temp_avg+3).concat(getTempAlertLevel(temp_max));
+    let maxAlertLevel = getTempAlertLevel(temp_avg+2).concat(getTempAlertLevel(temp_max));
 
     if(maxAlertLevel.includes("💀"))
         return [
@@ -125,7 +125,7 @@ function getHeatAlerts(temp_avg, temp_max){
 
 function getColdAlerts(temp_avg, temp_min){
     //We check if avg max temp is over the trigger or avg temp within 3° of trigger
-    let maxAlertLevel = getTempAlertLevel(temp_avg-3).concat(getTempAlertLevel(temp_min));
+    let maxAlertLevel = getTempAlertLevel(temp_avg-2).concat(getTempAlertLevel(temp_min));
 
     if(maxAlertLevel.includes("💀"))
         return [

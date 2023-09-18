@@ -53,9 +53,9 @@ export function getTempAlertLevel(temp){
     if(temp >= 28)
         return "🥵⚠️";
 
-    if(temp <= 12)
+    if(temp <= 10)
         return "🥶⚠️";
-    if(temp <= 6)
+    if(temp <= 5)
         return "🥶🟡";
     if(temp <= 0)
         return "🥶🟠";
