@@ -82,7 +82,7 @@ function getUVAlerts(forecast){
         "☀️"+getUVTimeAlertLevel(time_before_sunscreen)+" Protect skin after "+getTimeString(time_before_sunscreen),
     ];
     if(time_to_burn !== time_before_sunscreen) recommendations.push(
-        "☀️"+getUVIndexAlertLevel(max_uv)+" At level "+max_uv+", skin burns after "+time_to_burn+"min"
+        "☀️"+getUVIndexAlertLevel(max_uv)+" Max level for today: "+max_uv
     );
     
     return recommendations;
@@ -157,7 +157,7 @@ function getTempAlerts(forecast){
     const forecast_temp = forecast.map(hour => hour.feelslike_c);
     const temp_avg = forecast_temp.reduce((acc, temp) => acc + temp, 0) / forecast_temp.length;
 
-    let recommendations = temp_avg >= 21 ?
+    let recommendations = temp_avg > 20 ?
         getHeatAlerts(temp_avg, Math.max(...forecast_temp)): //Hot
         getColdAlerts(temp_avg, Math.min(...forecast_temp)) //Cold
 
@@ -168,7 +168,7 @@ function getPrecAlerts(forecast){
     let total_prec = 0;
     forecast.map(hour => hour.precip_mm)
         .forEach(prec => total_prec += prec)
-  
+    
     if(total_prec === 0)
         return [];
     if(total_prec < 2)
@@ -177,11 +177,11 @@ function getPrecAlerts(forecast){
         ];
     if(total_prec < 5)
         return [
-            "🌧️🟠 Rain is expected, dress properly or bring umbrella ☔ ella-ella hey hey 🎶"
+            "🌧️🟠 Rain expected, dress properly/bring umbrella☔"
         ];
   
     return [
-        "⛈️🔴 Lots of rain is expected, I would stay inside"
+        "⛈️🔴 Lots of rain expected, I would stay inside"
     ];
  }
 

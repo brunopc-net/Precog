@@ -21,8 +21,8 @@ function Weather({aqius, weather}){
     return (
         <div>
             <WeatherBox content={airLevel} />
-            <WeatherBox content={uvLevel} />
             <WeatherBox content={tempLevel} />
+            <WeatherBox content={uvLevel} />
             <WeatherBox content={windLevel} />
         </div>
     );

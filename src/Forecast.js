@@ -1,17 +1,21 @@
 import React from 'react';
 import './Forecast.css'
 
+import { getTempAlertLevel, getPrecAlertLevel, getUVIndexAlertLevel } from "./AlertLevels";
+
 function getTime(hour_fc){
     const time = hour_fc.time.split(" ")[1].replace(":00", "h");
     return time.charAt(0) === "0" ? time.substring(1) : time;
 }
 
 function getTemp(hour_fc){
-    return Math.round(hour_fc.feelslike_c);
+    const temp = hour_fc.feelslike_c;
+    return getTempAlertLevel(temp)+Math.round(temp);
 }
 
 function getPrec(hour_fc){
-    return hour_fc.precip_mm;
+    const prec = hour_fc.precip_mm;
+    return getPrecAlertLevel(prec)+prec;
 }
 
 function getWind(hour_fc){
@@ -19,7 +23,7 @@ function getWind(hour_fc){
 }
 
 function getUVIndex(hour_fc){
-    return hour_fc.uv;
+    return getUVIndexAlertLevel(hour_fc.uv)+hour_fc.uv;
 }
 
 function getPrecEmoji(forecast){
@@ -41,8 +45,8 @@ function Forecast({forecast}){
                         <td>🕗</td>
                         <td>🌡️</td>
                         <td>{getPrecEmoji(forecast)}</td>
-                        <td>🌬️</td>
                         <td>☀️</td>
+                        <td>🌬️</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,10 +62,10 @@ function Forecast({forecast}){
                                 {getPrec(hour_fc)}
                             </td>
                             <td>
-                                {getWind(hour_fc)}
+                                {getUVIndex(hour_fc)}
                             </td>
                             <td>
-                                {getUVIndex(hour_fc)}
+                                {getWind(hour_fc)}
                             </td>
                         </tr>
                     )}
