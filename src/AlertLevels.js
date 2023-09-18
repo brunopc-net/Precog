@@ -46,7 +46,7 @@ export function getUVTimeAlertLevel(time_before_sunscreen_min){
 }
 
 export function getTempAlertLevel(temp_c){
-    if(temp_c >= 45)
+    if(temp_c >= 44)
         return "💀";
     if(temp_c >= 40)
         return "🔴";
@@ -57,15 +57,15 @@ export function getTempAlertLevel(temp_c){
     if(temp_c >= 28)
         return "⚠️";
 
-    if(temp_c <= 10)
+    if(temp_c <= 12)
         return "⚠️";
-    if(temp_c <= 5)
+    if(temp_c <= 6)
         return "🟡";
     if(temp_c <= 0)
         return "🟠";
-    if(temp_c <= -15)
+    if(temp_c <= -12)
         return "🔴";
-    if(temp_c <= -25)
+    if(temp_c <= -24)
         return "💀";
 
     return "🟢";
