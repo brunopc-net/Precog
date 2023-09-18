@@ -4,7 +4,6 @@ import Forecast from './Forecast';
 import FORECAST_AMOUNT from './config';
 
 import Alerts from './Alerts';
-import Weather from './Weather';
 import axios from 'axios';
 import Legend from './Legend';
 
@@ -36,11 +35,10 @@ function getLocalEpoch(){
 	const now =  new Date();
 	const local_offset = now.getTimezoneOffset() * 60;
 
-    //The previous hour should be included in forecast
-    //Removing 10 minutes from epoch time
-    const localEpoch = (new Date(now - local_offset).getTime())-(50*60*1000);
+  const localEpoch = (new Date(now - local_offset).getTime())
+    -(60*60*1000); //The previous hour should be included in forecast
 
-    //Converting to seconds to match weather data
+  //Converting to seconds to match weather data
 	return localEpoch/1000;
 }
 
@@ -59,10 +57,15 @@ function filter(forecast){
     return forecast_filtered;
 }
 
+function getPrecEmoji(forecast){
+  const chancesOfRain = forecast.reduce((acc, hour_fc) => acc + hour_fc.chance_of_rain, 0);
+  const chancesOfSnow = forecast.reduce((acc, hour_fc) => acc + hour_fc.chance_of_snow, 0);
+  return chancesOfSnow > chancesOfRain ? "🌨️" : "🌧️";
+}
+
 function App() {
 
   const [aqius, setAqius] = useState(0);
-  const [weather, setWeather] = useState({});
   const [forecast, setForecast] = useState({});
 
   useEffect(() => {
@@ -78,7 +81,6 @@ function App() {
   useEffect(() => {
     try {
       axios(WEATHER_API_CALL).then((resp) => {
-        setWeather(resp.data.current)
         setForecast(filter(resp.data.forecast))
       });
     } catch (error) {
@@ -89,9 +91,8 @@ function App() {
   return (
     <div className="App" >
       {forecast.length > 0 && aqius !== 0 && <>
-        <Alerts aqius={aqius} forecast={forecast}/>
-        <Weather aqius={aqius} weather={weather}/>
-        <Forecast forecast={forecast} />
+        <Alerts aqius={aqius} forecast={forecast} precEmoji={getPrecEmoji(forecast)}/>
+        <Forecast forecast={forecast} precEmoji={getPrecEmoji(forecast)}/>
       </>}
       <Legend />
     </div>

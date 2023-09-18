@@ -9,7 +9,8 @@ function Legend(){
             🌡️ Temperature, °C<br/>
             🌬️ Wind, kph<br/>
             🕗 Time<br/>
-            🌧️ Precipitations, mm
+            🌧️ Rain, mm<br/>
+            🌨️ Snow, cm
         </div>
     );
 }

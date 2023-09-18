@@ -2,7 +2,7 @@ import React from "react";
 import './Alerts.css';
 
 import forecast_amount from './config.js'
-import { getAQIUSIndexAlertLevel, getUVIndexAlertLevel, getUVTimeAlertLevel, getTempAlertLevel } from "./AlertLevels";
+import { getAQIUSIndexAlertLevel, getUVIndexAlertLevel, getUVTimeAlertLevel, getTempAlertLevel, getRainAlertLevel, getSnowAlertLevel } from "./AlertLevels";
 
 function getAirAlerts(aqius){
     let alertLevel = getAQIUSIndexAlertLevel(aqius);
@@ -11,30 +11,29 @@ function getAirAlerts(aqius){
             "🏭💀 Stay inside with N95😷",
             "🏭💀 Close windows, air purifier at max level"
         ]
-    if(alertLevel.includes("🟣"))
-        return [
-            "🏭🟣 Stay inside",
-            "🏭🟣 Close windows, air purifier at max level"
-        ]
-    if(alertLevel.includes("🔴") && aqius > 250)
-        return [
-            "🏭🔴 60min max outside exposure with N95😷",
-            "🏭🔴 Close windows, air purifier at high level"
-        ]
     if(alertLevel.includes("🔴"))
         return [
-            "🏭🔴 120min max outside exposure with N95😷",
-            "🏭🔴 Close windows, air purifier at moderate level"
-        ]   
+            "🏭🔴 Stay inside",
+            "🏭🔴 Close windows, air purifier at max level"
+        ]
+    if(alertLevel.includes("🟠") && aqius >= 250)
+        return [
+            "🏭🟠 60min max outside exposure with N95😷",
+            "🏭🟠 Close windows, air purifier at high level"
+        ]
     if(alertLevel.includes("🟠"))
         return [
-            "🏭🟠 Play outside with N95 mask😷",
-            "🏭🟠 Close windows, turn on air purifier"
-        ]
+            "🏭🟠 120min max outside exposure with N95😷",
+            "🏭🟠 Close windows, air purifier at moderate level"
+        ]   
     if(alertLevel.includes("🟡"))
         return [
-            "🏭🟡 Play outside if you want",
-            "🏭🟡 Open windows if you want"
+            "🏭🟡 Play outside with N95 mask😷",
+            "🏭🟡 Close windows, turn on air purifier"
+        ]
+    if(alertLevel.includes("⚠️"))
+        return [
+            "🏭⚠️ Not the best, outside exposure still ok"
         ]
 
     return []
@@ -154,52 +153,98 @@ function getColdAlerts(temp_avg, temp_min){
 }
 
 function getTempAlerts(forecast){
-    const forecast_temp = forecast.map(hour => hour.feelslike_c);
-    const temp_avg = forecast_temp.reduce((acc, temp) => acc + temp, 0) / forecast_temp.length;
-
-    let recommendations = temp_avg > 20 ?
-        getHeatAlerts(temp_avg, Math.max(...forecast_temp)): //Hot
-        getColdAlerts(temp_avg, Math.min(...forecast_temp)) //Cold
-
-    return recommendations
+    const forecast_temp = forecast.map(hour => 
+        hour.feelslike_c
+    );
+    const temp_avg = forecast_temp.reduce((acc, temp) =>
+        acc + temp, 0
+    ) / forecast_temp.length;
+    return temp_avg > 20 ?
+        getHeatAlerts(temp_avg, Math.max(...forecast_temp)):
+        getColdAlerts(temp_avg, Math.min(...forecast_temp))
 }
-  
-function getPrecAlerts(forecast){
-    let total_prec = 0;
-    forecast.map(hour => hour.precip_mm)
-        .forEach(prec => total_prec += prec)
-    
-    if(total_prec === 0)
-        return [];
-    if(total_prec < 2)
-        return [
-            "🌧️🟡 A few drops of rain are expected"
-        ];
-    if(total_prec < 5)
-        return [
-            "🌧️🟠 Rain expected, dress properly/bring umbrella☔"
-        ];
-  
-    return [
-        "⛈️🔴 Lots of rain expected, I would stay inside"
-    ];
- }
 
-function Alerts({aqius, forecast}){
-    const recommendations = getAirAlerts(aqius)
+function getRainAlerts(total_prec){
+    const alertLevel = getRainAlertLevel(total_prec);
+    const rainAmount = total_prec+"mm";
+
+    if(alertLevel.includes("💀"))
+        return [
+            "🌧️💀 Heavy deluge is expected - "+rainAmount
+        ];
+    if(alertLevel.includes("🔴"))
+        return [
+            "🌧️🔴 Deluge is expected - "+rainAmount
+        ];
+    if(alertLevel.includes("🟠"))
+        return [
+            "🌧️🟠 A lot of rain is expected - "+rainAmount
+        ];
+    if(alertLevel.includes("🟡"))
+        return [
+            "🌧️🟡 Significant rain expected - "+rainAmount
+        ];
+    if(alertLevel.includes("⚠️"))
+        return [
+            "🌧️⚠️ Some rain drops expected"
+        ];
+    return [];
+}
+
+function getSnowAlerts(total_prec){
+    const alertLevel = getSnowAlertLevel(total_prec);
+    const snowAmount = Math.round(total_prec/10)+"cm"
+
+    if(alertLevel.includes("💀"))
+        return [
+            "🌨️💀 Heavy snow storm is expected - "+snowAmount
+        ];
+    if(alertLevel.includes("🔴"))
+        return [
+            "🌨️🔴 Snow storm is expected - "+snowAmount
+        ];
+    if(alertLevel.includes("🟠"))
+        return [
+            "🌨️🟠 A lot of snow is expected - "+snowAmount
+        ];
+    if(alertLevel.includes("🟡"))
+        return [
+            "🌨️🟡 Significant snow expected - "+snowAmount
+        ];
+    if(alertLevel.includes("⚠️"))
+        return [
+            "🌨️⚠️ A bit of snow is expected"
+        ];
+    return [];
+}
+
+function getPrecAlerts(forecast, precEmoji){
+    let total_prec = forecast.reduce((acc, hour_fc) => 
+        acc + hour_fc.precip_mm, 0
+    );
+    return precEmoji === "🌨️" ?
+        getSnowAlerts(total_prec):
+        getRainAlerts(total_prec)
+}
+
+function Alerts({aqius, forecast, precEmoji}){
+    const summary = getAirAlerts(aqius)
         .concat(getUVAlerts(forecast))
         .concat(getTempAlerts(forecast))
-        .concat(getPrecAlerts(forecast));
+        .concat(getPrecAlerts(forecast, precEmoji))
 
-    return (recommendations.length > 0 && (
+    if (summary.length === 0)
+        summary.push("🟢 All's good, go play outside!")
+
+    return (
         <div className="alert-box">
                 <ul className="alerts">
-                    {recommendations.map((rec) => 
-                        <li key={rec}>{rec}</li>
+                    {summary.map((alert, i) => 
+                        <li key={i}>{alert}</li>
                     )}
                 </ul>
         </div>
-    ));
+    );
 }
 
 export default Alerts;

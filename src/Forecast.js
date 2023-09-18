@@ -1,7 +1,7 @@
 import React from 'react';
 import './Forecast.css'
 
-import { getTempAlertLevel, getPrecAlertLevel, getUVIndexAlertLevel } from "./AlertLevels";
+import { getTempAlertLevel, getUVIndexAlertLevel, getSnowAlertLevel, getRainAlertLevel } from "./AlertLevels";
 
 function getTime(hour_fc){
     const time = hour_fc.time.split(" ")[1].replace(":00", "h");
@@ -13,9 +13,10 @@ function getTemp(hour_fc){
     return getTempAlertLevel(temp)+Math.round(temp);
 }
 
-function getPrec(hour_fc){
-    const prec = hour_fc.precip_mm;
-    return getPrecAlertLevel(prec)+prec;
+function getPrec(hour_fc, precEmoji){
+    return precEmoji === "🌨️" ?
+        getSnowAlertLevel(hour_fc.precip_mm)+hour_fc.precip_mm/10:
+        getRainAlertLevel(hour_fc.precip_mm)+hour_fc.precip_mm
 }
 
 function getWind(hour_fc){
@@ -26,16 +27,7 @@ function getUVIndex(hour_fc){
     return getUVIndexAlertLevel(hour_fc.uv)+hour_fc.uv;
 }
 
-function getPrecEmoji(forecast){
-    const chancesOfRain = forecast
-        .reduce((acc, hour_fc) => acc + hour_fc.chance_of_rain, 0);
-    const chancesOfSnow = forecast
-        .reduce((acc, hour_fc) => acc + hour_fc.chance_of_snow, 0);
-
-    return chancesOfSnow > chancesOfRain ? "🌨️" : "🌧️";
-}
-
-function Forecast({forecast}){
+function Forecast({forecast, precEmoji}){
     return (
         <div className="forecast-box" >
             <table>
@@ -44,7 +36,7 @@ function Forecast({forecast}){
                     <tr>
                         <td>🕗</td>
                         <td>🌡️</td>
-                        <td>{getPrecEmoji(forecast)}</td>
+                        <td>{precEmoji}</td>
                         <td>☀️</td>
                         <td>🌬️</td>
                     </tr>
@@ -59,7 +51,7 @@ function Forecast({forecast}){
                                 {getTemp(hour_fc)}
                             </td>
                             <td>
-                                {getPrec(hour_fc)}
+                                {getPrec(hour_fc, precEmoji)}
                             </td>
                             <td>
                                 {getUVIndex(hour_fc)}

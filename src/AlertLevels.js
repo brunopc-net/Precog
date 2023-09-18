@@ -1,16 +1,16 @@
-export function getAQIUSIndexAlertLevel(aqius){
-    if(aqius < 50)
-        return "🟢";
-    if(aqius < 100)
-        return "🟡";
-    if(aqius < 150)
-        return "🟠";
-    if(aqius < 200)
+export function getAQIUSIndexAlertLevel(aqius_index){
+    if(aqius_index >= 300)
+        return "💀";
+    if(aqius_index >= 200)
         return "🔴";
-    if(aqius < 300)
-        return "🟣";
+    if(aqius_index >= 150)
+        return "🟠";
+    if(aqius_index >= 100)
+        return "🟡";
+    if(aqius_index >= 50)
+        return "⚠️";
 
-    return "💀";
+    return "🟢";
 }
 
 export function getUVIndexAlertLevel(uv_index){
@@ -28,62 +28,76 @@ export function getUVIndexAlertLevel(uv_index){
     return "🟢";
 }
 
-export function getUVTimeAlertLevel(time_before_sunscreen){
-    if(time_before_sunscreen <= 17)
+export function getUVTimeAlertLevel(time_before_sunscreen_min){
+    if(time_before_sunscreen_min <= 17)
         return "💀"
-    if(time_before_sunscreen <= 23)
+    if(time_before_sunscreen_min <= 23)
         return "🔴";
-    if(time_before_sunscreen <= 30)
+    if(time_before_sunscreen_min <= 30)
         return "🟠";
-    if(time_before_sunscreen <= 40)
+    if(time_before_sunscreen_min <= 40)
         return "🟡";
-    if(time_before_sunscreen <= 120)
+    if(time_before_sunscreen_min <= 120)
         return "⚠️";
-    if(time_before_sunscreen <= 240)
+    if(time_before_sunscreen_min <= 240)
         return "ℹ️";
 
     return "🟢";
 }
 
-export function getTempAlertLevel(temp){
-    if(temp >= 45)
+export function getTempAlertLevel(temp_c){
+    if(temp_c >= 45)
         return "💀";
-    if(temp >= 40)
+    if(temp_c >= 40)
         return "🔴";
-    if(temp >= 36)
+    if(temp_c >= 36)
         return "🟠";
-    if(temp >= 32)
+    if(temp_c >= 32)
         return "🟡";
-    if(temp >= 28)
+    if(temp_c >= 28)
         return "⚠️";
 
-    if(temp <= 10)
+    if(temp_c <= 10)
         return "⚠️";
-    if(temp <= 5)
+    if(temp_c <= 5)
         return "🟡";
-    if(temp <= 0)
+    if(temp_c <= 0)
         return "🟠";
-    if(temp <= -15)
+    if(temp_c <= -15)
         return "🔴";
-    if(temp <= -25)
+    if(temp_c <= -25)
         return "💀";
 
     return "🟢";
 }
 
-export function getPrecAlertLevel(prec){
-    if (prec >= 30)
+export function getRainAlertLevel(rain_mm){
+    if (rain_mm >= 32)
         return "💀";
-    if (prec >= 15)
+    if (rain_mm >= 16)
         return "🔴";
-    if (prec >= 8)
+    if (rain_mm >= 8)
         return "🟠";
-    if (prec >= 4)
+    if (rain_mm >= 2)
         return "🟡";
-    if (prec >= 2)
+    if (rain_mm > 0)
         return "⚠️";
-    if (prec > 0)
-        return "ℹ️";
+
+    return "🟢";
+}
+
+export function getSnowAlertLevel(prec_mm){
+    const snow_cm = prec_mm/10;
+    if (snow_cm >= 35)
+        return "💀";
+    if (snow_cm >= 25)
+        return "🔴";
+    if (snow_cm >= 15)
+        return "🟠";
+    if (snow_cm >= 5)
+        return "🟡";
+    if (snow_cm > 0)
+        return "⚠️";
 
     return "🟢";
 }
