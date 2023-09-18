@@ -15,15 +15,23 @@ function getPrec(hour_fc){
 }
 
 function getWind(hour_fc){
-    return Math.round(hour_fc.wind_kph);
+    return Math.round(hour_fc.wind_kph)+"@"+hour_fc.wind_degree+"°";
 }
 
 function getUVIndex(hour_fc){
     return hour_fc.uv;
 }
 
+function getPrecEmoji(forecast){
+    const chancesOfRain = forecast
+        .reduce((acc, hour_fc) => acc + hour_fc.chance_of_rain, 0);
+    const chancesOfSnow = forecast
+        .reduce((acc, hour_fc) => acc + hour_fc.chance_of_snow, 0);
+
+    return chancesOfSnow > chancesOfRain ? "🌨️" : "🌧️";
+}
+
 function Forecast({forecast}){
-    console.log(forecast);
     return (
         <div className="forecast-box" >
             <table>
@@ -32,7 +40,7 @@ function Forecast({forecast}){
                     <tr>
                         <td>🕗</td>
                         <td>🌡️</td>
-                        <td>🌧️</td>
+                        <td>{getPrecEmoji(forecast)}</td>
                         <td>🌬️</td>
                         <td>☀️</td>
                     </tr>

@@ -191,7 +191,7 @@ function Alerts({aqius, forecast}){
         .concat(getTempAlerts(forecast))
         .concat(getPrecAlerts(forecast));
 
-    return (
+    return (recommendations.length > 0 && (
         <div className="alert-box">
                 <ul className="alerts">
                     {recommendations.map((rec) => 
@@ -199,7 +199,7 @@ function Alerts({aqius, forecast}){
                     )}
                 </ul>
         </div>
-    );
+    ));
 }
 
 export default Alerts;
