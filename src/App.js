@@ -88,13 +88,11 @@ function App() {
 
   return (
     <div className="App" >
-      {aqius !== 0 && <Weather aqius={aqius} weather={weather}/>}
-      <div>
-        {forecast.length > 0 && <>
-          <Alerts aqius={aqius} forecast={forecast}/>
-          <Forecast forecast={forecast} />
-        </>}
-      </div>
+      {forecast.length > 0 && aqius !== 0 && <>
+        <Alerts aqius={aqius} forecast={forecast}/>
+        <Weather aqius={aqius} weather={weather}/>
+        <Forecast forecast={forecast} />
+      </>}
       <Legend />
     </div>
   );

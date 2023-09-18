@@ -1,6 +1,8 @@
 .alert-box {
     position: relative;
     margin:auto;
+    margin-top:5px;
+    margin-bottom:5px;
     width: 400px;
     background:#303134;
     border-radius:5px;
