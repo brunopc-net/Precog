@@ -50,20 +50,21 @@ export function getTempAlertLevel(temp){
         return "🥵🟠";
     if(temp >= 32)
         return "🥵🟡";
-    if(temp >= 27)
+    if(temp >= 28)
         return "🥵⚠️";
-    if(temp >= 15)
-        return "🟢"
-    if(temp >= 8)
-        return "🥶⚠️";
-    if(temp >= 0)
-        return "🥶🟡";
-    if(temp >= -10)
-        return "🥶🟠";
-    if(temp >= -20)
-        return "🥶🔴";
 
-    return "🥶💀";
+    if(temp <= 12)
+        return "🥶⚠️";
+    if(temp <= 6)
+        return "🥶🟡";
+    if(temp <= 0)
+        return "🥶🟠";
+    if(temp <= -15)
+        return "🥶🔴";
+    if(temp <= -25)
+        return "🥶💀";
+
+    return "🟢";
 }
 
 export function getPrecAlertLevel(total_prec){
