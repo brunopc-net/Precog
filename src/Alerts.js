@@ -77,11 +77,14 @@ function getUVAlerts(forecast){
     const max_uv = Math.max(...forecast_uv);
     const time_to_burn = getTimeToBurn(max_uv);
 
-    let recommendations = [
+
+    let recommendations = []
+    const timeAlertLevel = getUVTimeAlertLevel(time_before_sunscreen);
+    if(timeAlertLevel !== "🟢") recommendations.push(
         "☀️"+getUVTimeAlertLevel(time_before_sunscreen)+" Protect skin after "+getTimeString(time_before_sunscreen),
-    ];
+    );
     if(time_to_burn !== time_before_sunscreen) recommendations.push(
-        "☀️"+getUVIndexAlertLevel(max_uv)+" Max level for today: "+max_uv
+        "☀️"+getUVIndexAlertLevel(max_uv)+" Max UV predicted: "+max_uv
     );
     
     return recommendations;
@@ -93,25 +96,22 @@ function getHeatAlerts(temp_avg, temp_max){
 
     if(maxAlertLevel.includes("💀"))
         return [
-            "🌡️🥵💀 Avoid exercice",
-            "🌡️🥵💀 Stay as cool as you can.",
+            "🌡️🥵💀 Avoid exercice, stay as cool as you can",
             "🌡️🥵💀 Take as much water/electrolytes as possible."
         ];
     if(maxAlertLevel.includes("🔴"))
         return [
-            "🌡️🥵🔴 Exercice very lightly, no more then Zone1",
-            "🌡️🥵🔴 Limit exercice to 60min",
+            "🌡️🥵🔴 Exercice very lightly, no more then 60min Zone1",
             "🌡️🥵🔴 Take as much water/electrolytes as possible."
         ];
     if(maxAlertLevel.includes("🟠"))
         return [
-            "🌡️🥵🟠 Train lightly, no more then Zone2",
-            "🌡️🥵🟠 Limit exercice to 120min",
+            "🌡️🥵🟠 Exercice lightly, no more then 120min Zone2",
             "🌡️🥵🟠 Take as much water/electrolytes as possible"
         ];
     if(maxAlertLevel.includes("🟡"))
         return [
-            "🌡️🥵🟡 Train moderatly, take regular breaks",
+            "🌡️🥵🟡 Exercice moderatly, take regular breaks",
             "🌡️🥵🟡 Take a lot of water/electrolytes"
         ];
     if(maxAlertLevel.includes("⚠️"))
@@ -128,22 +128,19 @@ function getColdAlerts(temp_avg, temp_min){
 
     if(maxAlertLevel.includes("💀"))
         return [
-            "🌡️🥶💀 Stay indoors"
+            "🌡️🥶💀 Extreme cold, stay indoors"
         ];
     if(maxAlertLevel.includes("🔴"))
         return [
-            "🌡️🥶🔴 Wear maximum clothing, winter goggles",
+            "🌡️🥶🔴 Wear maximum clothing, goggles",
         ];
     if(maxAlertLevel.includes("🟠"))
         return [
-            "🌡️🥶🟠 Put a winter jacket",
-            "🌡️🥶🟠 Keep your hands, feet and ears warm",
+            "🌡️🥶🟠 Put winter jacket, keep hands/feet/ears warm",
         ];
     if(maxAlertLevel.includes("🟡"))
         return [
-            "🌡️🥶🟡 Put a winter jacket",
-            "🌡️🥶🟡 Keep your hands, feet and ears covered",
-            "🌡️🥶🟡 It may freeze, watch out for ice🧊",
+            "🌡️🥶🟡 Wear winter gear, watch out for ice🧊",
         ];
     if(maxAlertLevel.includes("⚠️"))
         return [
@@ -166,7 +163,7 @@ function getTempAlerts(forecast){
 
 function getRainAlerts(total_prec){
     const alertLevel = getRainAlertLevel(total_prec);
-    const rainAmount = total_prec+"mm";
+    const rainAmount = Math.round(total_prec*10)/10+"mm";
 
     if(alertLevel.includes("💀"))
         return [
