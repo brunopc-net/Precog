@@ -16,27 +16,15 @@ function getLocalEpoch(){
 }
 
 function getForecastHours(){
-  return weatherData.forecast.forecastday[0].hour;
-}
-
-function getFilteredForecast(){
-  return getForecastHours()
-    .filter((hour_fc) => hour_fc.time_epoch > (getLocalEpoch()-60*60)) //Ignore the forecast for the past
-    .slice(0, FORECAST_AMOUNT); //Keep only the next x hours
-}
-
-function getTomorrowForecastHour(index){
-  return weatherData.forecast.forecastday[1].hour[index];
+  const today_fc = weatherData.forecast.forecastday[0].hour;
+  const tomorrow_fc = weatherData.forecast.forecastday[1].hour;
+  return today_fc.concat(tomorrow_fc)
 }
 
 function getForecast(){
-  const filtered_forecast = getFilteredForecast();
-
-  //Enriching forecast until we reach FORECAST_AMOUNT 
-  let index = 0; while(filtered_forecast.length < FORECAST_AMOUNT)
-    filtered_forecast.push(getTomorrowForecastHour(index++))
-
-  return filtered_forecast;
+  return getForecastHours()
+    .filter((hour_fc) => hour_fc.time_epoch > (getLocalEpoch()-60*60)) //Ignore the forecast until past hour
+    .slice(0, FORECAST_AMOUNT); //Keep only the next FORECAST_AMOUNT hours
 }
 
 function getPrecEmoji(forecast){
