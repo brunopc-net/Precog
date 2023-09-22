@@ -10,9 +10,10 @@ Here's the advices displayed in the alert section:
 
 ### Air quality 🏭
 
-- 💀 **AQI US >= 300** <br/>
-  Stay inside with N95😷<br/>
-  Close windows, air purifier at max level<br/>
+## 💀 **AQI US >= 300** <br/>
+Stay inside with N95😷<br/>
+Close windows, air purifier at max level<br/>
+
 - 🔴 **AQI US >= 250** <br/>
   Stay inside<br/>
   Close windows, air purifier at max level<br/>
@@ -25,8 +26,6 @@ Here's the advices displayed in the alert section:
 - 🟡 **AQI US >= 100** <br/>
   Play outside with N95 mask😷<br/>
   Close windows, turn on air purifier<br/>
-- ⚠️ **AQI US >= 50** <br/>
-  Not the best, outside exposure still ok<br/>
 - ⚠️ **AQI US >= 50** <br/>
   Not the best, outside exposure still ok<br/>
 - 🟢 **AQI US < 50** <br/>
