@@ -10,6 +10,8 @@ Here's the alerts displayed in the advice section:
 
 ### Air quality 🏭
 
+You can read about Air Quality Index (U.S.) [here](https://www.airnow.gov/aqi/aqi-basics/). I choose to not use the purple/maroon AIQ color for consistency with the other alerts and to make the app more intuitive.
+
 💀 **AQI US >= 300**<br/>
 Stay inside with N95😷<br/>
 Close windows, air purifier at max level<br/>
