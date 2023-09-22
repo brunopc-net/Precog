@@ -1,60 +1,42 @@
-import { useState, useEffect } from 'react'
-
 import Forecast from './Forecast';
-import FORECAST_AMOUNT from './config';
-
 import Alerts from './Alerts';
-import axios from 'axios';
 import Legend from './Legend';
 
-const WEATHER_API_CALL = {
-  method: 'GET',
-  url: 'https://weatherapi-com.p.rapidapi.com/forecast.json',
-  params: {
-    q: "Montreal",
-    days: '2'
-  },
-  headers: {
-    'X-RapidAPI-Key': '70d30c54d9msh877d7c78dedb92cp15c5b3jsn5b512496413f',
-    'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
-  }
-}
+import aqiusData from './data/aqius.json';
+import weatherData from './data/weather.json';
 
-const AQIUS_API_CALL = {
-  method: 'GET',
-  url: 'https://api.airvisual.com/v2/city',
-  params: {
-    key: '4a75527e-cd94-40ae-a17e-e7fa1c2b7f2c',
-    city: 'Montreal',
-    state: 'quebec',
-    country: 'canada'
-  }
+const FORECAST_AMOUNT = 10;
+
+function getAqius(){
+  return aqiusData.data.current.pollution.aqius;
 }
 
 function getLocalEpoch(){
-	const now =  new Date();
-	const local_offset = now.getTimezoneOffset() * 60;
-
-  const localEpoch = (new Date(now - local_offset).getTime())
-    -(60*60*1000); //The previous hour should be included in forecast
-
-  //Converting to seconds to match weather data
-	return localEpoch/1000;
+  return weatherData.location.localtime_epoch;
 }
 
-function filter(forecast){
-    const forecast_filtered = forecast.forecastday[0].hour
-      .filter((hour_fc) => hour_fc.time_epoch > getLocalEpoch()) //Ignore the forecast for the past
-      .slice(0, FORECAST_AMOUNT); //Keep only the next x hours
-  
-    //If time > 4:00pm, we need to fill the forecast with some of tomorrow's data
-    if(forecast_filtered.length < FORECAST_AMOUNT){
-      const missing_hours = FORECAST_AMOUNT-forecast_filtered.length
-      for(var i = 0; i < missing_hours; i++)
-        forecast_filtered.push(forecast.forecastday[1].hour[i])
-    }
-  
-    return forecast_filtered;
+function getForecastHours(){
+  return weatherData.forecast.forecastday[0].hour;
+}
+
+function getFilteredForecast(){
+  return getForecastHours()
+    .filter((hour_fc) => hour_fc.time_epoch > getLocalEpoch()) //Ignore the forecast for the past
+    .slice(0, FORECAST_AMOUNT); //Keep only the next x hours
+}
+
+function getTomorrowForecastHour(index){
+  return weatherData.forecast.forecastday[1].hour[index];
+}
+
+function getForecast(){
+  const filtered_forecast = getFilteredForecast();
+
+  //Enriching forecast until we reach FORECAST_AMOUNT 
+  let index = -1; while(filtered_forecast.length < FORECAST_AMOUNT)
+    filtered_forecast.push(getTomorrowForecastHour(index++))
+
+  return filtered_forecast;
 }
 
 function getPrecEmoji(forecast){
@@ -64,36 +46,12 @@ function getPrecEmoji(forecast){
 }
 
 function App() {
-
-  const [aqius, setAqius] = useState(0);
-  const [forecast, setForecast] = useState({});
-
-  useEffect(() => {
-    try {
-      axios(AQIUS_API_CALL).then((resp) => {
-        setAqius(resp.data.data.current.pollution.aqius)
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      axios(WEATHER_API_CALL).then((resp) => {
-        setForecast(filter(resp.data.forecast))
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
+  const aqius = getAqius();
+  const forecast = getForecast(weatherData);
   return (
     <div className="App" >
-      {forecast.length > 0 && aqius !== 0 && <>
-        <Alerts aqius={aqius} forecast={forecast} precEmoji={getPrecEmoji(forecast)}/>
-        <Forecast forecast={forecast} precEmoji={getPrecEmoji(forecast)}/>
-      </>}
+      <Alerts aqius={aqius} forecast={forecast} precEmoji={getPrecEmoji(forecast)}/>
+      <Forecast forecast={forecast} precEmoji={getPrecEmoji(forecast)}/>
       <Legend />
     </div>
   );

@@ -1,8 +1,14 @@
 import React from "react";
-import './Alerts.css';
 
-import forecast_amount from './config.js'
-import { getAQIUSIndexAlertLevel, getUVIndexAlertLevel, getUVTimeAlertLevel, getTempAlertLevel, getRainAlertLevel, getSnowAlertLevel } from "./AlertLevels";
+import './Alerts.css';
+import { 
+    getAQIUSIndexAlertLevel,
+    getUVIndexAlertLevel,
+    getUVTimeAlertLevel,
+    getTempAlertLevel,
+    getRainAlertLevel,
+    getSnowAlertLevel
+} from "./AlertLevels";
 
 function getAirAlerts(aqius){
     let alertLevel = getAQIUSIndexAlertLevel(aqius);
@@ -71,7 +77,7 @@ function getUVAlerts(forecast){
     const forecast_uv = forecast.map(hour => hour.uv);
     const time_before_sunscreen = getTimeBeforeSunscreen(forecast_uv);
 
-    if(time_before_sunscreen >= forecast_amount*60)
+    if(time_before_sunscreen >= forecast.length*60)
         return [];
 
     const max_uv = Math.max(...forecast_uv);

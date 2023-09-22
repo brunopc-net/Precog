@@ -22,6 +22,10 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Get weather data
+        run: node src/backend.js --AQIUS_API_KEY=${{ secrets.AQIUS_API_KEY }} --WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
+
       - name: Build website
         run: yarn build
 
