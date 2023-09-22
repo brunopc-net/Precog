@@ -1,7 +1,12 @@
 import React from 'react';
 import './Forecast.css'
 
-import { getTempAlertLevel, getUVIndexAlertLevel, getSnowAlertLevel, getRainAlertLevel } from "./AlertLevels";
+import { 
+    getTempAlertLevel,
+    getUVIndexAlertLevel,
+    getSnowAlertLevel,
+    getRainAlertLevel
+} from "./AlertLevels";
 
 function getTime(hour_fc){
     const time = hour_fc.time.split(" ")[1].replace(":00", "h");

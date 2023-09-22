@@ -33,25 +33,26 @@ function getForecast(){
   const filtered_forecast = getFilteredForecast();
 
   //Enriching forecast until we reach FORECAST_AMOUNT 
-  let index = -1; while(filtered_forecast.length < FORECAST_AMOUNT)
+  let index = 0; while(filtered_forecast.length < FORECAST_AMOUNT)
     filtered_forecast.push(getTomorrowForecastHour(index++))
 
   return filtered_forecast;
 }
 
 function getPrecEmoji(forecast){
-  const chancesOfRain = forecast.reduce((acc, hour_fc) => acc + hour_fc.chance_of_rain, 0);
-  const chancesOfSnow = forecast.reduce((acc, hour_fc) => acc + hour_fc.chance_of_snow, 0);
-  return chancesOfSnow > chancesOfRain ? "🌨️" : "🌧️";
+  const chanceOfRain = forecast.reduce((tot, hour) => tot + hour.chance_of_rain, 0);
+  const chanceOfSnow = forecast.reduce((tot, hour) => tot + hour.chance_of_snow, 0);
+  return chanceOfRain > chanceOfSnow ? "🌨️" : "🌧️";
 }
 
 function App() {
   const aqius = getAqius();
-  const forecast = getForecast(weatherData);
+  const forecast = getForecast();
+  const precEmoji = getPrecEmoji(forecast);
   return (
     <div className="App" >
-      <Alerts aqius={aqius} forecast={forecast} precEmoji={getPrecEmoji(forecast)}/>
-      <Forecast forecast={forecast} precEmoji={getPrecEmoji(forecast)}/>
+      <Alerts aqius={aqius} forecast={forecast} precEmoji={precEmoji}/>
+      <Forecast forecast={forecast} precEmoji={precEmoji}/>
       <Legend />
     </div>
   );
