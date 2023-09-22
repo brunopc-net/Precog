@@ -92,13 +92,13 @@ export function getSnowAlertLevel(prec_mm){
         return "🟢";
     
     const snow_cm = prec_mm/10;
-    if (snow_cm < 4)
+    if (snow_cm < 5)
         return "🟡";
-    if (snow_cm < 8)
+    if (snow_cm < 12)
         return "🟠";
-    if (snow_cm < 16)
+    if (snow_cm < 20)
         return "🔴";
-    if (snow_cm < 32)
+    if (snow_cm < 30)
         return "🟣";
     //32+
         return "💀";

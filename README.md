@@ -10,9 +10,9 @@ It consists of two sections:
 
 Here's the alerts displayed in the advice section:
 
-### Air quality (AQI-US) 🏭
+### 🏭 Air quality (AQI-US)
 
-You can read about Air Quality Index (U.S.) [here](https://www.airnow.gov/aqi/aqi-basics/). I choose to not use tmaroon AIQ color for consistency with the other alerts and to make the app more intuitive. I also choose to use the purple alert level 🟣 for AQI > 250 to have the same range between each AQI Index levels.
+You can read about Air Quality Index (U.S.) [here](https://www.airnow.gov/aqi/aqi-basics/). I choose to not use maroon AIQ color for consistency with the other alerts and to make the app more intuitive.
 
 🟢 **0-50** <br/>
 No alert<br/>
@@ -40,7 +40,7 @@ Close windows, air purifier at max level<br/>
 Stay inside with N95😷<br/>
 Close windows, air purifier at max level<br/>
 
-### UV Index 🏭
+### ☀️ UV Index
 
 You can read about UV Index [here](https://en.wikipedia.org/wiki/Ultraviolet_index).
 
@@ -67,61 +67,46 @@ For UV, as it fluctuate during the day, I put two alerts:
 🟣 **15-17 minutes**<br/>
 💀 **15- minutes**<br/>
 
-export function getTempAlertLevel(temp_c){
-    //Heat
-    if(temp_c >= 44)
-        return "💀";
-    if(temp_c >= 40)
-        return "🟣";
-    if(temp_c >= 36)
-        return "🔴";
-    if(temp_c >= 32)
-        return "🟠";
-    if(temp_c >= 28)
-        return "🟡";
-    //Cold
-    if(temp_c <= 12)
-        return "🟡";
-    if(temp_c <= 6)
-        return "🟠";
-    if(temp_c <= 0)
-        return "🔴";
-    if(temp_c <= -12)
-        return "🟣";
-    if(temp_c <= -24)
-        return "💀";
-    //Between 12 and 28
-        return "🟢";
-}
+### 🌡️ Temperature 
 
-export function getRainAlertLevel(rain_mm){
-    if (rain_mm === 0)
-        return "🟢";
-    if (rain_mm < 2)
-        return "🟡";
-    if (rain_mm < 6)
-        return "🟠";
-    if (rain_mm < 12)
-        return "🔴";
-     if (rain_mm < 24)
-        return "🟣";
-    //24+
-        return "💀";
-}
+Temperature used is the  "feels like" temperature, so heat index should be considered in the summer and wind index should be considered in the winter. 
 
-export function getSnowAlertLevel(prec_mm){
-    if (prec_mm === 0)
-        return "🟢";
-    
-    const snow_cm = prec_mm/10;
-    if (snow_cm < 4)
-        return "🟡";
-    if (snow_cm < 8)
-        return "🟠";
-    if (snow_cm < 16)
-        return "🔴";
-    if (snow_cm < 32)
-        return "🟣";
-    //32+
-        return "💀";
-}
+#### 🥵 Heat alerts
+
+🟢 **12-28°C**: No alert<br/>
+🟡 **28-32°C**<br/>
+🟠 **32-36°C**<br/>
+🔴 **36-40°C**<br/>
+🟣 **40-44°C**<br/>
+💀 **44+°C**<br/>
+
+#### 🥶 Cold alerts
+
+🟢 **12-28°C**: No alert<br/>
+🟡 **6-12°C**<br/>
+🟠 **0-6°C**<br/>
+🔴 **-12 to 0°C**<br/>
+🟣 **-24 to -12°C**<br/>
+💀 **<-24°C**<br/>
+
+### 🌧️🌨️ Precipitations
+
+Support rain and snow
+
+#### 🌧️ Rain alerts
+
+🟢 **No rain**: No alert<br/>
+🟡 **0-2mm**<br/>
+🟠 **2-6mm**<br/>
+🔴 **6-12mm**<br/>
+🟣 **12-24mm**<br/>
+💀 **24+mm**<br/>
+
+#### 🌨️ Snow alerts
+
+🟢 **No rain**: No alert<br/>
+🟡 **0-5cm**<br/>
+🟠 **5-12cm**<br/>
+🔴 **12-20cm**<br/>
+🟣 **20-30cm**<br/>
+💀 **30+cm**<br/>
