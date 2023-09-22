@@ -4,9 +4,9 @@ As the wildfires was terrible this year in Canada, I wanted an algorithm that wo
 
 It consists of two sections:
 
-## Alert sections
+## Advice section
 
-Here's the advices displayed in the alert section:
+Here's the alerts displayed in the advice section:
 
 ### Air quality 🏭
 
@@ -15,18 +15,23 @@ Stay inside with N95😷<br/>
 Close windows, air purifier at max level<br/>
 
 🔴 **AQI US >= 250** <br/>
-  Stay inside<br/>
-  Close windows, air purifier at max level<br/>
-- 🟠 **AQI US >= 200** <br/>
-  60min max outside exposure with N95😷<br/>
-  Close windows, air purifier at high level<br/>
-- 🟠 **AQI US >= 150** <br/>
-  120min max outside exposure with N95😷<br/>
-  Close windows, air purifier at moderate level<br/>
-- 🟡 **AQI US >= 100** <br/>
-  Play outside with N95 mask😷<br/>
-  Close windows, turn on air purifier<br/>
-- ⚠️ **AQI US >= 50** <br/>
-  Not the best, outside exposure still ok<br/>
-- 🟢 **AQI US < 50** <br/>
-  No alert<br/>
+Stay inside<br/>
+Close windows, air purifier at max level<br/>
+
+🟠 **AQI US >= 200** <br/>
+60min max outside exposure with N95😷<br/>
+Close windows, air purifier at high level<br/>
+
+🟠 **AQI US >= 150** <br/>
+120min max outside exposure with N95😷<br/>
+Close windows, air purifier at moderate level<br/>
+
+🟡 **AQI US >= 100** <br/>
+Play outside with N95 mask😷<br/>
+Close windows, turn on air purifier<br/>
+
+⚠️ **AQI US >= 50** <br/>
+Not the best, outside exposure still ok<br/>
+
+🟢 **AQI US < 50** <br/>
+No alert<br/>
