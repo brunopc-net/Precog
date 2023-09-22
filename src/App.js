@@ -21,7 +21,7 @@ function getForecastHours(){
 
 function getFilteredForecast(){
   return getForecastHours()
-    .filter((hour_fc) => hour_fc.time_epoch > getLocalEpoch()) //Ignore the forecast for the past
+    .filter((hour_fc) => hour_fc.time_epoch > (getLocalEpoch()-60*60)) //Ignore the forecast for the past
     .slice(0, FORECAST_AMOUNT); //Keep only the next x hours
 }
 
