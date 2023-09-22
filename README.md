@@ -46,7 +46,8 @@ You can read about UV Index [here](https://en.wikipedia.org/wiki/Ultraviolet_ind
 
 For UV, as it fluctuate during the day, I put two alerts:
 - A max UV alert
-- A time to burn alert. Time to burn is calculated by using [Fitzpatrick](https://en.wikipedia.org/wiki/Thomas_B._Fitzpatrick)'s formula: `(200 * skin_type_resistance)⁄(3 * UVI)` with skin type II (skin_type_resistance = 3). If you're skin type 1, be aware that this metric is too optimistic for you ; you should protect from sun approximatly 16% faster then what's adviced and at UV Level 2.
+- A time to burn alert.<br/>
+  Time to burn is calculated by using [Fitzpatrick](https://en.wikipedia.org/wiki/Thomas_B._Fitzpatrick)'s formula: `(200 * skin_type_resistance)⁄(3 * UVI)` with skin type II (skin_type_resistance = 3). If you're skin type 1, be aware that this metric is too optimistic for you ; you should protect from sun approximatly 16% faster then what's adviced and at UV Level 2.
 
 #### Max UV Alert
 🟢 **0-2**: No alert<br/>
