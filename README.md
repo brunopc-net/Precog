@@ -1,6 +1,6 @@
 Named after the [Egyptian god of rainstorms, weather, sky and war](https://en.wikipedia.org/wiki/Weather_god)
 
-Live at [https://brunopc-net.github.io/weather/](https://brunopc-net.github.io/weather/)
+Live at [https://brunopc-net.github.io/Horus](https://brunopc-net.github.io/Horus)
 
 Summer 2023, Wildfires were terrible in Canada. With global warming effects increasing every year, I wanted an algorithm that would advice me on what to do when I'm planning to go play outside. I also wanted something to advice me to protect from the sun, as UV can be high even if it's cloudy outside.
 
