@@ -85,10 +85,10 @@ function getUVAlerts(forecast){
 
     let recommendations = []
     const timeAlertLevel = getUVTimeAlertLevel(time_before_sunscreen);
-    if(timeAlertLevel.includes("🟢")) recommendations.push(
+    if(timeAlertLevel === "🟢ℹ️") recommendations.push(
         "☀️"+getUVTimeAlertLevel(time_before_sunscreen)+" You will need sunscreen in "+getTimeString(time_before_sunscreen),
     );
-    if(timeAlertLevel.includes("🟢")) recommendations.push(
+    if(timeAlertLevel === "🟢⚠️") recommendations.push(
         "☀️"+getUVTimeAlertLevel(time_before_sunscreen)+" Protect your skin after "+getTimeString(time_before_sunscreen),
     );
     if(time_to_burn !== time_before_sunscreen) recommendations.push(
