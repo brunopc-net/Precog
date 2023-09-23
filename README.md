@@ -2,7 +2,7 @@ Named after the [Egyptian god of rainstorms, weather, sky and war](https://en.wi
 
 Live at [https://brunopc-net.github.io/weather/](https://brunopc-net.github.io/weather/)
 
-As the wildfires was terrible this year in Canada, I wanted an algorithm that would advice me on what to do when I'm planning to go play outside. I alco wanted something to advice me to protect from the sun, as UV can be high even if it's cloudy outside.
+wildfires were terrible this year in Canada. With global warming effects increasing every year, I wanted an algorithm that would advice me on what to do when I'm planning to go play outside. I also wanted something to advice me to protect from the sun, as UV can be high even if it's cloudy outside.
 
 While I was on it, I decided to include precipitation alerts so I won't go for a long bike ride if there will be rain in two hours for exemple. I also included temperature alerts to make sure I'm aware of the conditions for my time outside.
 
@@ -47,29 +47,29 @@ Close windows, air purifier at max level<br/>
 You can read about UV Index [here](https://en.wikipedia.org/wiki/Ultraviolet_index).
 
 For UV, as it fluctuate during the day, I put two alerts:
-- A max UV alert
+- A max UV alert (if max level is later in the day)
 - A time to burn alert. Time to burn is calculated by using [Fitzpatrick](https://en.wikipedia.org/wiki/Thomas_B._Fitzpatrick)'s formula<br/>
   `(200 * skin_type_resistance)⁄(3 * UVI)` with skin type II (skin_type_resistance = 3)<br/>
   If you're skin type 1, be aware that this metric is too optimistic for you ; you should protect from sun approximatly 16% faster then what's adviced and at UV Level 2.
 
 #### Max UV Alert
 🟢 **0-2**: No alert<br/>
-🟡 **3-5** <br/>
-🟠 **6-7** <br/>
-🔴 **8-10** <br/>
-🟣 **11-12** <br/>
-💀 **13+**<br/>
+🟡 **3-5**: Max UV predicted: x<br/>
+🟠 **6-7**: Max UV predicted: x<br/>
+🔴 **8-10**: Max UV predicted: x<br/>
+🟣 **11-12**: Max UV predicted: x<br/>
+💀 **13+**: Max UV predicted: x<br/>
 
 #### Time to burn
 
 🟢 **Over predicted forecast time**: No alert<br/>
-🟢ℹ️ **240+ minutes**<br/>
-🟢⚠️ **120-240 minutes**<br/>
-🟡 **30-120 minutes**<br/>
-🟠 **20-30 minutes**<br/>
-🔴 **17-20 minutes**<br/>
-🟣 **15-17 minutes**<br/>
-💀 **15- minutes**<br/>
+🟢ℹ️ **240+ minutes**: You will need sunscreen in x min<br/>
+🟢⚠️ **120-240 minutes**: Protect your skin after x min<br/>
+🟡 **30-120 minutes**: Protect your skin after x min<br/>
+🟠 **20-30 minutes**: Protect your skin after x min<br/>
+🔴 **17-20 minutes**: Protect your skin after x min<br/>
+🟣 **15-17 minutes**: Protect your skin after x min<br/>
+💀 **15- minutes**: Protect your skin after x min<br/>
 
 ### 🌡️ Temperature 
 
@@ -77,21 +77,48 @@ Temperature used is the  "feels like" temperature, so heat index should be consi
 
 #### 🥵 Heat alerts
 
-🟢 **12-28°C**: No alert<br/>
+🟢 **12-28°C**<br/>
+No alert<br/>
+
 🟡 **28-32°C**<br/>
+Caution with exercice, listen to your body<br/>
+Drink proactively<br/>
+
 🟠 **32-36°C**<br/>
+Exercice moderatly, take regular breaks<br/>
+Take a lot of water/electrolytes<br/>
+
 🔴 **36-40°C**<br/>
+Exercice lightly, no more then 120min Zone2<br/>
+Take as much water/electrolytes as possible<br/>
+
 🟣 **40-44°C**<br/>
+Exercice very lightly, no more then 60min Zone1<br/>
+Take as much water/electrolytes as possible<br/>
+
 💀 **44+°C**<br/>
+Avoid exercice, stay as cool as you can<br/>
+Take as much water/electrolytes as possible<br/>
 
 #### 🥶 Cold alerts
 
-🟢 **12-28°C**: No alert<br/>
+🟢 **12-28°C**<br/>
+No alert<br/>
+
 🟡 **6-12°C**<br/>
+You may need a light jacket or sleeves<br/>
+
 🟠 **0-6°C**<br/>
+You may need winter gear, watch out for ice🧊<br/>
+
 🔴 **-12 to 0°C**<br/>
+Put winter gear<br/>
+
 🟣 **-24 to -12°C**<br/>
+Wear maximum clothing, goggles<br/>
+
 💀 **<-24°C**<br/>
+Extreme cold, stay indoors<br/>
 
 ### 🌧️🌨️ Precipitations
 
@@ -100,18 +127,17 @@ Support rain and snow
 #### 🌧️ Rain alerts
 
 🟢 **No rain**: No alert<br/>
-🟡 **0-2mm**<br/>
-🟠 **2-6mm**<br/>
-🔴 **6-12mm**<br/>
-🟣 **12-24mm**<br/>
-💀 **24+mm**<br/>
+🟡 **0-2mm**: Some rain drops expected<br/>
+🟠 **2-6mm**: Significant rain expected<br/>
+🔴 **6-12mm**: A lot of rain is expected<br/>
+🟣 **12-24mm**: Deluge is expected<br/>
+💀 **24+mm**: Heavy deluge is expected<br/>
 
 #### 🌨️ Snow alerts
 
 🟢 **No rain**: No alert<br/>
-🟡 **0-5cm**<br/>
-🟠 **5-12cm**<br/>
-🔴 **12-20cm**<br/>
-🟣 **20-30cm**<br/>
-💀 **30+cm**<br/>
-
+🟡 **0-5cm**: A bit of snow is expected<br/>
+🟠 **5-12cm**: Significant snow expected<br/>
+🔴 **12-20cm**: A lot of snow is expected<br/>
+🟣 **20-30cm**: Snow storm is expected<br/>
+💀 **30+cm**: Heavy snow storm is expected<br/>

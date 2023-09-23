@@ -143,7 +143,7 @@ function getColdAlerts(temp_avg, temp_min){
         ];
     if(maxAlertLevel.includes("🔴"))
         return [
-            "🌡️🥶🔴 Put winter jacket, keep hands/feet/ears warm",
+            "🌡️🥶🔴 Put winter gear",
         ];
     if(maxAlertLevel.includes("🟠"))
         return [
