@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Horus/static/css/main.98f8de3b.css",
-    "main.js": "/Horus/static/js/main.acab1a06.js",
+    "main.js": "/Horus/static/js/main.af450e64.js",
     "index.html": "/Horus/index.html",
     "main.98f8de3b.css.map": "/Horus/static/css/main.98f8de3b.css.map",
-    "main.acab1a06.js.map": "/Horus/static/js/main.acab1a06.js.map"
+    "main.af450e64.js.map": "/Horus/static/js/main.af450e64.js.map"
   },
   "entrypoints": [
     "static/css/main.98f8de3b.css",
-    "static/js/main.acab1a06.js"
+    "static/js/main.af450e64.js"
   ]
 }
