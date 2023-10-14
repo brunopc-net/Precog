@@ -11,35 +11,30 @@ import {
 } from "./AlertLevels";
 
 function getAirAlerts(aqius){
-    let alertLevel = getAQIUSIndexAlertLevel(aqius);
+    let alertLevel = "🏭"+getAQIUSIndexAlertLevel(aqius)+"-"+aqius;
     if(alertLevel.includes("💀"))
         return [
-            "🏭💀 Stay inside with N95😷",
-            "🏭💀 Close windows, air purifier at max level"
+            alertLevel+" Stay inside w/N95😷, 🚫🪟, air purifier max"
         ]
     if(alertLevel.includes("🟣") && aqius >= 250)
         return [
-            "🏭🟣 Stay inside",
-            "🏭🟣 Close windows, air purifier at max level"
+            alertLevel+" Stay inside, 🚫🪟, air purifier max"
         ]
-    if(alertLevel.includes("🟣"))
+    if(alertLevel.includes("🟣")) //aqius 200-250
         return [
-            "🏭🟣 60min max outside exposure with N95😷",
-            "🏭🟣 Close windows, air purifier at high level"
+            alertLevel+" 🚳Outside max 60min w/N95😷, 🚫🪟, air purifier high"
         ]
-    if(alertLevel.includes("🔴"))
+    if(alertLevel.includes("🔴")) //aqius 150-200
         return [
-            "🏭🔴 120min max outside exposure with N95😷",
-            "🏭🔴 Close windows, air purifier at moderate level"
+            alertLevel+" Outside max 120min w/N95😷, 🚫🪟, air purifier medium"
         ]   
-    if(alertLevel.includes("🟠"))
+    if(alertLevel.includes("🟠")) //aqius 100-150
         return [
-            "🏭🟠 Play outside with N95 mask😷",
-            "🏭🟠 Close windows, turn on air purifier"
+            alertLevel+" put N95😷, 🚫🪟, air purifier on"
         ]
-    if(alertLevel.includes("🟡"))
+    if(alertLevel.includes("🟡")) //aqius 50-100
         return [
-            "🏭🟡 Not the best but outside exposure still ok"
+            alertLevel+" Not the best, outside exposure still ok"
         ]
     return []
 }

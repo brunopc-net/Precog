@@ -19,9 +19,10 @@ function getTemp(hour_fc){
 }
 
 function getPrec(hour_fc, precEmoji){
-    return precEmoji === "🌨️" ?
-        getSnowAlertLevel(hour_fc.precip_mm)+Math.round(hour_fc.precip_mm/10):
-        getRainAlertLevel(hour_fc.precip_mm)+Math.round(hour_fc.precip_mm*10)/10
+    let precAmt = hour_fc.precip_mm;
+    return precEmoji === "🌨️" ? 
+        getSnowAlertLevel(precAmt)+Math.round(precAmt/10):
+        getRainAlertLevel(precAmt)+getRainAlertLevel(precAmt);
 }
 
 function getWind(hour_fc){

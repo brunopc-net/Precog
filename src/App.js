@@ -30,7 +30,7 @@ function getForecast(){
 function getPrecEmoji(forecast){
   const chanceOfRain = forecast.reduce((tot, hour) => tot + hour.chance_of_rain, 0);
   const chanceOfSnow = forecast.reduce((tot, hour) => tot + hour.chance_of_snow, 0);
-  return chanceOfRain > chanceOfSnow ? "🌨️" : "🌧️";
+  return chanceOfSnow > chanceOfRain ? "🌨️" : "🌧️";
 }
 
 function App() {
