@@ -16,7 +16,6 @@ const AQIUS_API_CALL = {
         country: 'canada'
     }
 }
-
 const WEATHER_API_CALL = {
     method: 'GET',
     url: 'https://weatherapi-com.p.rapidapi.com/forecast.json',
@@ -39,27 +38,8 @@ function output(api_call, filename){
     });
 }
 
-function sendSmsAlert(){
-    const accountSid = 'AC0642701c12df98067e243354b4941a6f';
-    const authToken = '[AuthToken]';
-    const client = require('twilio')(accountSid, authToken);
-
-    client.messages.create({
-        from: "+18063046209",
-        to: args.MY_PHONE_NUMBER
-    }).then(msg => 
-        console.log(message.sid)
-    ).done();
-}
-
 if (!fs.existsSync(DATA_DIR))
     fs.mkdirSync(DATA_DIR);
 
 output(AQIUS_API_CALL, AQIUS_FILE);
 output(WEATHER_API_CALL, WEATHER_FILE);
-
-var time = new Date().getHours();
-
-if(time === 9){
-    sendSmsAlert();
-}
