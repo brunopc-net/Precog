@@ -11,6 +11,7 @@ import {
 } from "./AlertLevels";
 
 const PM25_MAX_DOSE = 24 * 35;
+const LOW_INTENSITY_VE_RATIO = 3.245;
 const CYCLING_VE_RATIO = 8.316;
 const RUNNING_VE_RATIO = CYCLING_VE_RATIO * 1.306;
 
@@ -53,7 +54,7 @@ function getAirAlerts(aqius){
             alertLevel+" Not the best, outside exposure still ok"
         ]
     
-    const timeBeforeMask = PM25_MAX_DOSE/getpm25(aqius);
+    const timeBeforeMask = PM25_MAX_DOSE/(getpm25(aqius)*LOW_INTENSITY_VE_RATIO);
     var alerts = [alertLevel+" put N95😷 outside after "+getTimeString(timeBeforeMask*60)];
 
     if(alertLevel.includes("🟠")){ //aqius 100-150
@@ -261,6 +262,7 @@ function getPrecAlerts(forecast, precEmoji){
 
 function Alerts({aqius, forecast, precEmoji}){
     const summary = getAirAlerts(aqius)
+        .concat(getSportAlerts(aqius))
         .concat(getUVAlerts(forecast))
         .concat(getTempAlerts(forecast))
         .concat(getPrecAlerts(forecast, precEmoji))
