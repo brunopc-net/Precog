@@ -10,33 +10,68 @@ import {
     getSnowAlertLevel
 } from "./AlertLevels";
 
+const PM25_MAX_DOSE = 24 * 35;
+const CYCLING_VE_RATIO = 8.316;
+const RUNNING_VE_RATIO = CYCLING_VE_RATIO * 1.306;
+
+function getpm25(aqi){
+    if(aqi <= 50)
+        return aqi*0.24;
+    if(aqi <= 100)
+        return ((aqi-50)*0.46)+12;
+    if(aqi <= 150)
+        return ((aqi-100)*0.42)+35;
+    if(aqi <= 200)
+        return ((aqi-150)*1.88)+56;
+    if(aqi <= 300)
+        return ((aqi-200))+150;
+
+    return ((aqi-200)*1.25)+250;
+}
+
+function getSportAlerts(aqius){
+    if(aqius < 50)
+        return [];
+
+    const cyclingLimit = PM25_MAX_DOSE/(getpm25(aqi)+2)*CYCLING_VE_RATIO;
+    const runningLimit = PM25_MAX_DOSE/getpm25(aqi)*RUNNING_VE_RATIO;
+
+    var alerts = ["😷🚴 Wear N95 for cycling after "+getTimeString(cyclingLimit*60)];
+    if(runningLimit < 3){
+        alerts.push("😷🏃‍♂️ Wear N95 for running after "+getTimeString(runningLimit*60))
+    }
+    return alerts;
+}
+
 function getAirAlerts(aqius){
     let alertLevel = "🏭"+getAQIUSIndexAlertLevel(aqius)+"-"+aqius;
-    if(alertLevel.includes("💀"))
-        return [
-            alertLevel+" Stay inside w/N95😷, 🚫🪟, air purifier max"
-        ]
-    if(alertLevel.includes("🟣") && aqius >= 250)
-        return [
-            alertLevel+" Stay inside, 🚫🪟, air purifier max"
-        ]
-    if(alertLevel.includes("🟣")) //aqius 200-250
-        return [
-            alertLevel+" 🚳Outside max 60min w/N95😷, 🚫🪟, air purifier high"
-        ]
-    if(alertLevel.includes("🔴")) //aqius 150-200
-        return [
-            alertLevel+" Outside max 120min w/N95😷, 🚫🪟, air purifier medium"
-        ]   
-    if(alertLevel.includes("🟠")) //aqius 100-150
-        return [
-            alertLevel+" put N95😷, 🚫🪟, air purifier on"
-        ]
+
+    if(alertLevel.includes("🟢")) //aqius 0-50
+        return []
     if(alertLevel.includes("🟡")) //aqius 50-100
         return [
             alertLevel+" Not the best, outside exposure still ok"
         ]
-    return []
+    
+    const timeBeforeMask = PM25_MAX_DOSE/getpm25(aqius);
+    var alerts = [alertLevel+" put N95😷 outside after "+getTimeString(timeBeforeMask*60)];
+
+    if(alertLevel.includes("🟠")){ //aqius 100-150
+        alerts.push(alertLevel+"🏠 Close windows 🚫🪟, turn on air purifier");
+        return alerts;
+    }
+    if(alertLevel.includes("🔴")){  //aqius 150-200
+        alerts.push(alertLevel+"🏠 Close windows 🚫🪟, air purifier medium");
+        return alerts;
+    }
+    if(alertLevel.includes("🟣")){  //aqius 200-300
+        alerts.push(alertLevel+"🏠 Close windows 🚫🪟, air purifier high");
+        return alerts;
+    }
+    if(alertLevel.includes("💀")){  //aqius 300-500
+        alerts.push(alertLevel+"🏠 Close windows 🚫🪟, air purifier max");
+        return alerts;
+    }
 }
 
 function getTimeToBurn(uv_index){
