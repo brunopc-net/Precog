@@ -14,27 +14,27 @@ const PM25_MAX_DOSE = 24 * 35;
 const CYCLING_VE_RATIO = 8.316;
 const RUNNING_VE_RATIO = CYCLING_VE_RATIO * 1.306;
 
-function getpm25(aqi){
-    if(aqi <= 50)
-        return aqi*0.24;
-    if(aqi <= 100)
-        return ((aqi-50)*0.46)+12;
-    if(aqi <= 150)
-        return ((aqi-100)*0.42)+35;
-    if(aqi <= 200)
-        return ((aqi-150)*1.88)+56;
-    if(aqi <= 300)
-        return ((aqi-200))+150;
+function getpm25(aqius){
+    if(aqius <= 50)
+        return aqius*0.24;
+    if(aqius <= 100)
+        return ((aqius-50)*0.46)+12;
+    if(aqius <= 150)
+        return ((aqius-100)*0.42)+35;
+    if(aqius <= 200)
+        return ((aqius-150)*1.88)+56;
+    if(aqius <= 300)
+        return ((aqius-200))+150;
 
-    return ((aqi-200)*1.25)+250;
+    return ((aqius-200)*1.25)+250;
 }
 
 function getSportAlerts(aqius){
     if(aqius < 50)
         return [];
 
-    const cyclingLimit = PM25_MAX_DOSE/(getpm25(aqi)+2)*CYCLING_VE_RATIO;
-    const runningLimit = PM25_MAX_DOSE/getpm25(aqi)*RUNNING_VE_RATIO;
+    const cyclingLimit = PM25_MAX_DOSE/(getpm25(aqius)+2)*CYCLING_VE_RATIO;
+    const runningLimit = PM25_MAX_DOSE/getpm25(aqius)*RUNNING_VE_RATIO;
 
     var alerts = ["😷🚴 Wear N95 for cycling after "+getTimeString(cyclingLimit*60)];
     if(runningLimit < 3){
@@ -112,7 +112,6 @@ function getUVAlerts(forecast){
     const max_uv = Math.max(...forecast_uv);
     const time_to_burn = getTimeToBurn(max_uv);
 
-
     let recommendations = []
     const timeAlertLevel = getUVTimeAlertLevel(time_before_sunscreen);
     if(timeAlertLevel.includes("🟢")) recommendations.push(
@@ -180,7 +179,7 @@ function getColdAlerts(temp_avg, temp_min){
         ];
     if(maxAlertLevel.includes("🟡"))
         return [
-            "🌡️🥶🟡 You may need a light jacket or sleeves"
+            "🌡️🥶🟡 You may need light jacket/sleeves"
         ];
     return [];
 }
