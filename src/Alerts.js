@@ -14,6 +14,7 @@ const PM25_MAX_DOSE = 24 * 35;
 const LOW_INTENSITY_VE_RATIO = 3.245;
 const CYCLING_VE_RATIO = 8.316;
 const RUNNING_VE_RATIO = CYCLING_VE_RATIO * 1.306;
+const N95_RISK = 0.21;
 
 function getpm25(aqius){
     if(aqius <= 50)
@@ -65,14 +66,11 @@ function getAirAlerts(aqius){
         alerts.push(alertLevel+"🏠 Close windows 🚫🪟, air purifier medium");
         return alerts;
     }
-    if(alertLevel.includes("🟣")){  //aqius 200-300
-        alerts.push(alertLevel+"🏠 Close windows 🚫🪟, air purifier high");
-        return alerts;
-    }
-    if(alertLevel.includes("💀")){  //aqius 300-500
-        alerts.push(alertLevel+"🏠 Close windows 🚫🪟, air purifier max");
-        return alerts;
-    }
+
+    return alert.concat([ //aqius 200+
+        alertLevel+" limit your outside time to "+getTimeString((timeBeforeMask/N95_RISK)*60),
+        alertLevel+"🏠 Close windows 🚫🪟, air purifier max",
+    ]);
 }
 
 function getTimeToBurn(uv_index){
