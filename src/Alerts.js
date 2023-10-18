@@ -59,16 +59,23 @@ function getAirAlerts(aqius){
     var alerts = [alertLevel+" put N95😷 outside after "+getTimeString(timeBeforeMask*60)];
 
     if(alertLevel.includes("🟠")){ //aqius 100-150
-        alerts.push(alertLevel+"🏠 Close windows 🚫🪟, turn on air purifier");
-        return alerts;
+        return alerts.concat([
+            alertLevel+"🏠 Close windows 🚫🪟, turn on air purifier"
+        ]);
     }
     if(alertLevel.includes("🔴")){  //aqius 150-200
-        alerts.push(alertLevel+"🏠 Close windows 🚫🪟, air purifier medium");
-        return alerts;
+        return alerts.concat([
+            alertLevel+"🏠 Close windows 🚫🪟, air purifier medium"
+        ]);
     }
 
-    return alert.concat([ //aqius 200+
-        alertLevel+" limit your outside time to "+getTimeString((timeBeforeMask/N95_RISK)*60),
+    alerts.push(alertLevel+" limit your outside time to "+getTimeString((timeBeforeMask/N95_RISK)*60));
+    if(alertLevel.includes("🟣")){  //aqius 200-300
+        return alerts.concat([
+            alertLevel+"🏠 Close windows 🚫🪟, air purifier high"
+        ]);
+    }
+    return alerts.concat([ //aqius 300+
         alertLevel+"🏠 Close windows 🚫🪟, air purifier max",
     ]);
 }
