@@ -1,6 +1,5 @@
 import Forecast from './Forecast';
 import { AlertsSummary } from './AlertSummary';
-import Legend from './Legend';
 
 import aqiusData from './data/aqius.json';
 import weatherData from './data/weather.json';
