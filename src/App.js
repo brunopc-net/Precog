@@ -41,7 +41,6 @@ function App() {
     <div className="App" >
       <AlertsSummary aqius={aqius} forecast={forecast} precEmoji={precEmoji}/>
       <Forecast forecast={forecast} precEmoji={precEmoji}/>
-      <Legend />
     </div>
   );
 }
