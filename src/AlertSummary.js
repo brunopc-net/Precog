@@ -94,18 +94,20 @@ function getSnowAlertLevel(prec_mm){
 }
 
 function getpm25(aqius){
-    if(aqius <= 50)
-        return aqius*0.24;
-    if(aqius <= 100)
-        return ((aqius-50)*0.46)+12;
-    if(aqius <= 150)
-        return ((aqius-100)*0.42)+35;
-    if(aqius <= 200)
-        return ((aqius-150)*1.88)+56;
-    if(aqius <= 300)
-        return ((aqius-200))+150;
+    var pm25 = aqius*0.24
 
-    return ((aqius-200)*1.25)+250;
+    if(aqius > 50)
+        pm25 = ((aqius-50)*0.46)+12;
+    if(aqius > 100)
+        pm25 = ((aqius-100)*0.42)+35;
+    if(aqius > 150)
+        pm25 = ((aqius-150)*1.88)+56;
+    if(aqius > 200)
+        pm25 = ((aqius-200))+150;
+    if(aqius > 300)
+        pm25 = ((aqius-300)*1.25)+250;
+
+    return Math.round(pm25*10)/10;
 }
 
 function getAQIUSIndexAlertLevel(aqius){
@@ -130,7 +132,7 @@ function getAirAlerts(aqius){
 
     const pm25 = getpm25(aqius);
     var alerts = [
-        "🏭"+getAQIUSIndexAlertLevel(aqius)+" AQI "+aqius+", PM2.5 concentration "+pm25+"µm/m<sup>3</sup>"
+        "🏭"+getAQIUSIndexAlertLevel(aqius)+" AQI "+aqius+", PM2.5 "+pm25+"µm/m3"
     ];
 
     const PM25_MAX_DOSE = 24 * 35;
@@ -139,28 +141,24 @@ function getAirAlerts(aqius){
     const RUNNING_VE_RATIO = CYCLING_VE_RATIO * 1.306;
     const N95_RISK = 0.21;
     
-    const cyclingLimit = PM25_MAX_DOSE/(pm25+2)*CYCLING_VE_RATIO;
-    const runningLimit = PM25_MAX_DOSE/pm25*RUNNING_VE_RATIO;
+    const cyclingLimit = PM25_MAX_DOSE/((pm25+2)*CYCLING_VE_RATIO);
+    const runningLimit = PM25_MAX_DOSE/(pm25*RUNNING_VE_RATIO);
 
     var insideAlert = "🏠🚫🪟 Close windows, use air purifier";
-    var cyclingAlert = "🚴😷 Cycling : put N95 after "+getTimeString(cyclingLimit*60);
-    var runningAlert = "🏃‍♂️😷 Running: put N95 after "+getTimeString(runningLimit*60);
+    var cyclingAlert = "🚴😷 Cycling: N95 after "+getTimeString(cyclingLimit*60);
+    var runningAlert = "🏃‍♂️😷 Running: N95 after "+getTimeString(runningLimit*60);
     if(aqius < 100)
         return alerts.concat([cyclingAlert, runningAlert, insideAlert]);
 
-    
     const outsideLimit = PM25_MAX_DOSE/(pm25*LOW_INTENSITY_VE_RATIO);
-    var outsideAlert = "🏞️😷 Outside: put N95 after "+getTimeString(outsideLimit*60);
+    var outsideAlert = "🏞️😷 Outside: N95 after "+getTimeString(outsideLimit*60);
     if(aqius > 200){
-        outsideAlert += "🏞️😷 Outside: put N95 for any effort or after "+getTimeString(outsideLimit*60);
-        cyclingAlert = "🚴 Cycling max time "+getTimeString(cyclingLimit/N95_RISK*60);
-        runningAlert = "🏃‍♂️ Running max time "+getTimeString(runningLimit/N95_RISK*60);
+        cyclingAlert = "🚴😷 Cycling: N95, max "+getTimeString(cyclingLimit/N95_RISK*60);
+        runningAlert = "🏃‍♂️😷 Running: N95, max "+getTimeString(runningLimit/N95_RISK*60);
     }
-
     if(aqius > 300){
-        outsideAlert = "🏞️😷 Outside: put N95, max time "+getTimeString(outsideLimit*60/N95_RISK);
+        outsideAlert = "🏞️😷 Outside: put N95, max "+getTimeString(outsideLimit*60/N95_RISK);
     }
-
     return alerts.concat([outsideAlert, cyclingAlert, runningAlert, insideAlert]);
 }
 
