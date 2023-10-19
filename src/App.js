@@ -1,5 +1,5 @@
 import Forecast from './Forecast';
-import Alerts from './Alerts';
+import Alerts from './AlertsFunctions';
 import Legend from './Legend';
 
 import aqiusData from './data/aqius.json';
