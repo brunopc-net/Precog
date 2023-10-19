@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const args = require('minimist')(process.argv.slice(2));
-const { getAirAlerts } = require("./AlertsFunctions");
+const { getAirAlerts } = require("./AlertFunctions");
 
 const DATA_DIR = "src/data";
 const AQIUS_FILE = DATA_DIR+"/aqius.json";

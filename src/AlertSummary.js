@@ -9,7 +9,7 @@ import {
     getPrecAlerts
 } from "./AlertFunctions";
 
-function Alerts({aqius, forecast, precEmoji}){
+function AlertsSummary({aqius, forecast, precEmoji}){
     const summary = getAirAlerts(aqius)
         .concat(getSportAlerts(aqius))
         .concat(getUVAlerts(forecast))
@@ -30,4 +30,4 @@ function Alerts({aqius, forecast, precEmoji}){
     );
 }
 
-export default Alerts;
+export default AlertsSummary;
