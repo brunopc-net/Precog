@@ -1,7 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
 const args = require('minimist')(process.argv.slice(2));
-const { getAirAlerts } = require("./AlertFunctions");
 
 const DATA_DIR = "src/data";
 const AQIUS_FILE = DATA_DIR+"/aqius.json";
@@ -69,7 +68,7 @@ axios(AQIUS_API_CALL).then((resp) => {
     const alertTime = ["08", "12", "16", "20"].includes(getHours);
     const highAqius = 100 < resp.data.data.current.pollution.aqius;
     if(alertTime && highAqius){
-        sendSms(getAirAlerts(aqius).join(" "));
+        sendSms("🏭AQI "+aqius+", PM2.5 "+pm25+"µm/m3. Close windows, use air purifier");
     }
     outputFile(resp, AQIUS_FILE)
 });

@@ -6,7 +6,7 @@ import {
     getUVIndexAlertLevel,
     getSnowAlertLevel,
     getRainAlertLevel
-} from "./AlertFunctions";
+} from "./AlertSummary";
 
 function getTime(hour_fc){
     const time = hour_fc.time.split(" ")[1].replace(":00", "h");

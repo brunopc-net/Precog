@@ -1,11 +1,11 @@
 import Forecast from './Forecast';
-import Alerts from './AlertSummary';
+import { AlertsSummary } from './AlertSummary';
 import Legend from './Legend';
 
 import aqiusData from './data/aqius.json';
 import weatherData from './data/weather.json';
 
-const FORECAST_AMOUNT = 10;
+const FORECAST_AMOUNT = 12;
 
 function getAqius(){
   return aqiusData.data.current.pollution.aqius;
@@ -39,7 +39,7 @@ function App() {
   const precEmoji = getPrecEmoji(forecast);
   return (
     <div className="App" >
-      <Alerts aqius={aqius} forecast={forecast} precEmoji={precEmoji}/>
+      <AlertsSummary aqius={aqius} forecast={forecast} precEmoji={precEmoji}/>
       <Forecast forecast={forecast} precEmoji={precEmoji}/>
       <Legend />
     </div>
