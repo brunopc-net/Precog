@@ -45,7 +45,7 @@ function getSportAlerts(aqius){
     return alerts;
 }
 
-function getAirAlerts(aqius){
+export function getAirAlerts(aqius){
     let alertLevel = "🏭"+getAQIUSIndexAlertLevel(aqius)+"-"+aqius;
 
     if(alertLevel.includes("🟢")) //aqius 0-50

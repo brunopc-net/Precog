@@ -1,6 +1,7 @@
-const axios = require('axios');
-const fs = require('fs');
+import axios from 'axios';
+import { writeFile, existsSync, mkdirSync } from 'fs';
 const args = require('minimist')(process.argv.slice(2));
+import { getAirAlerts } from "./Alerts";
 
 const DATA_DIR = "src/data";
 const AQIUS_FILE = DATA_DIR+"/aqius.json";
@@ -16,6 +17,7 @@ const AQIUS_API_CALL = {
         country: 'canada'
     }
 }
+
 const WEATHER_API_CALL = {
     method: 'GET',
     url: 'https://weatherapi-com.p.rapidapi.com/forecast.json',
@@ -29,17 +31,47 @@ const WEATHER_API_CALL = {
     }
 }
 
-function output(api_call, filename){
-    axios(api_call).then((resp) => {
-        let data_json = JSON.stringify(resp.data);
-        fs.writeFile(filename, data_json, (err) => {
-            if (err) console.log(err);
-        });
+function sendSms(message){
+    const accountSid = args.TWILLIO_ACCOUNT_SID;
+    const authToken = args.TWILLIO_AUTH_TOKEN;
+    const twillio = require('twilio')(accountSid, authToken);
+    twillio.messages.create({
+        body: message,
+        from: '+18063046209',
+        to: args.MY_PHONE_NUMBER
+    })
+    .then(message =>
+        console.log(message.sid)
+    )
+    .done();
+}
+
+function outputFile(resp, filename){
+    let data_json = JSON.stringify(resp.data);
+    writeFile(filename, data_json, (err) => {
+        if (err) console.log(err);
     });
 }
 
-if (!fs.existsSync(DATA_DIR))
-    fs.mkdirSync(DATA_DIR);
+function getHours(){
+    return new Date()
+        .toLocaleTimeString('fr-CA', {
+            timeZone: 'America/Montreal'
+        })
+        .substring(0, 2)
+}
 
-output(AQIUS_API_CALL, AQIUS_FILE);
-output(WEATHER_API_CALL, WEATHER_FILE);
+if (!existsSync(DATA_DIR))
+    mkdirSync(DATA_DIR);
+
+axios(AQIUS_API_CALL).then((resp) => {
+    const alertTime = ["08", "12", "16", "20"].includes(getHours);
+    const highAqius = 100 < resp.data.data.current.pollution.aqius;
+    if(alertTime && highAqius){
+        sendSms(getAirAlerts(aqius).join(" "));
+    }
+    outputFile(resp, AQIUS_FILE)
+});
+axios(WEATHER_API_CALL).then((resp) => 
+    outputFile(resp, WEATHER_FILE)
+);
