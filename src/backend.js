@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { writeFile, existsSync, mkdirSync } from 'fs';
+const axios = require('axios');
+const fs = require('fs');
 const args = require('minimist')(process.argv.slice(2));
-import { getAirAlerts } from "./Alerts";
+const { getAirAlerts } = require("./Alerts");
 
 const DATA_DIR = "src/data";
 const AQIUS_FILE = DATA_DIR+"/aqius.json";
@@ -48,7 +48,7 @@ function sendSms(message){
 
 function outputFile(resp, filename){
     let data_json = JSON.stringify(resp.data);
-    writeFile(filename, data_json, (err) => {
+    fs.writeFile(filename, data_json, (err) => {
         if (err) console.log(err);
     });
 }
@@ -61,8 +61,9 @@ function getHours(){
         .substring(0, 2)
 }
 
-if (!existsSync(DATA_DIR))
-    mkdirSync(DATA_DIR);
+if (!fs.existsSync(DATA_DIR))
+    fs.mkdirSync(DATA_DIR);
+
 
 axios(AQIUS_API_CALL).then((resp) => {
     const alertTime = ["08", "12", "16", "20"].includes(getHours);
