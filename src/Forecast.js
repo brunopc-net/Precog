@@ -1,39 +1,14 @@
 import React from 'react';
 import './Forecast.css'
 
-import { 
-    getTempAlertLevel,
-    getUVIndexAlertLevel,
-    getSnowAlertLevel,
-    getRainAlertLevel
-} from "./AlertSummary";
+import weather from './data/weather.json';
 
 function getTime(hour_fc){
     const time = hour_fc.time.split(" ")[1].replace(":00", "h");
     return time.charAt(0) === "0" ? time.substring(1) : time;
 }
 
-function getTemp(hour_fc){
-    const temp = hour_fc.feelslike_c;
-    return getTempAlertLevel(temp)+Math.round(temp);
-}
-
-function getPrec(hour_fc, precEmoji){
-    let precAmt = hour_fc.precip_mm;
-    return precEmoji === "🌨️" ? 
-        getSnowAlertLevel(precAmt)+Math.round(precAmt/10):
-        getRainAlertLevel(precAmt)+Math.round(precAmt);
-}
-
-function getWind(hour_fc){
-    return Math.round(hour_fc.wind_kph)+"@"+hour_fc.wind_degree+"°";
-}
-
-function getUVIndex(hour_fc){
-    return getUVIndexAlertLevel(hour_fc.uv)+hour_fc.uv;
-}
-
-function Forecast({forecast, precEmoji}){
+function Forecast(){
     return (
         <div className="forecast-box" >
             <table>
@@ -42,28 +17,28 @@ function Forecast({forecast, precEmoji}){
                     <tr>
                         <td>🕗</td>
                         <td>🌡️</td>
-                        <td>{precEmoji}</td>
+                        <td>{weather.summary.precp.isSnow ? "🌨️" : "🌧️"}</td>
                         <td>☀️</td>
                         <td>🌬️</td>
                     </tr>
                 </thead>
                 <tbody>
-                    {forecast.map((hour_fc, i) => 
+                    {weather.forecast.map((hour_fc, i) => 
                         <tr key={i}>
                             <td>
                                 {getTime(hour_fc)}
                             </td>
                             <td>
-                                {getTemp(hour_fc)}
+                                {hour_fc.temp.alert_level + hour_fc.temp.value}
                             </td>
                             <td>
-                                {getPrec(hour_fc, precEmoji)}
+                                {hour_fc.precp.alert_level + hour_fc.precp.value}
                             </td>
                             <td>
-                                {getUVIndex(hour_fc)}
+                                {hour_fc.uv.alert_level + hour_fc.uv.value}
                             </td>
                             <td>
-                                {getWind(hour_fc)}
+                                {hour_fc.wind.value}
                             </td>
                         </tr>
                     )}
