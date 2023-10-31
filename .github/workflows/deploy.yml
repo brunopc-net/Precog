@@ -24,7 +24,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Get weather data
-        run: node src/backend.js --AQIUS_API_KEY=${{ secrets.AQIUS_API_KEY }} --WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
+        run: node src/backend.js --AQIUS_API_KEY=${{ secrets.AQIUS_API_KEY }} --WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }} --MY_PHONE_NUMBER=${{ secrets.MY_PHONE_NUMBER }} --TWILLIO_ACCOUNT_SID=${{ secrets.TWILLIO_ACCOUNT_SID }} --TWILLIO_AUTH_TOKEN=${{ secrets.TWILLIO_AUTH_TOKEN }}
 
       - name: Build website
         run: yarn build
