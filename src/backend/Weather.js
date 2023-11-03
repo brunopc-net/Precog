@@ -191,8 +191,8 @@ class UvSummary {
         let time_to_burn = 0;
         for(const uv of forecast_uv) {
             const time = Math.floor((200 * skin_type)/(3*uv));
-            if(time < 60) break;
             time_to_burn += time;
+            if(time < 60) break;
         }
         return time_to_burn;
     }
