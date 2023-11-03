@@ -2,6 +2,17 @@ const config = require('./config');
 
 const RUNNING_VE_RATIO = 1.3; //https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1334197/
 
+function getTimeString(minutes_amount) {
+    var hours = (minutes_amount / 60);
+    var rhours = Math.floor(hours);
+    var rminutes = Math.round((hours - rhours) * 60);
+
+    if (rhours > 0)
+        return rhours+"h"+rminutes+"min";
+        
+    return rminutes+"min";
+}
+
 function between(metric, threshold1, threshold2){
     return (metric >= threshold1 && metric < threshold2) ||
            (metric <= threshold1 && metric > threshold2);
