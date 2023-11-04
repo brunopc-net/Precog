@@ -243,11 +243,11 @@ class TempSummary {
         if(alertLvl.includes("🟣"))
             return "🌡️🥶🟣 Wear maximum clothing, goggles";
         if(alertLvl.includes("🔴"))
-            return "🌡️🥶🔴 Put winter gear";
+            return "🌡️🥶🔴 Put winter gear, watch out for ice🧊";
         if(alertLvl.includes("🟠"))
-            return "🌡️🥶🟠 You may need winter gear, watch out for ice🧊";
+            return "🌡️🥶🟠 Put warm jacket";
         if(alertLvl.includes("🟡"))
-            return "🌡️🥶🟡 You may need light jacket/sleeves";
+            return "🌡️🥶🟡 Put a light jacket or sleeves";
     }
 }
 
