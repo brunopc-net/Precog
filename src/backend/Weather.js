@@ -1,5 +1,6 @@
 const config = require('./config');
 
+const N95_RISK = 0.21; //https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8438762/
 const RUNNING_VE_RATIO = 1.3; //https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1334197/
 
 function getTimeString(minutes_amount) {
