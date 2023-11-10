@@ -37,7 +37,7 @@ function getAlertLevel(metric, thresholds){
 class AirSummary {
     constructor(aqius, user){
         const summary = {
-            aqi: aqius,
+            aqius: aqius,
             pm25: this.calcPM25(aqius)
         }
         Object.assign(summary, {alerts: this.getAlerts(summary, user)})
@@ -83,8 +83,8 @@ class AirSummary {
                 withN95: this.calcTimeLimit(ve.cycling/ve.rest, aq.pm25+2, true)
             }
         };
-        return aq.aqi <= 50 ? []: [
-            "🏭"+getAlertLevel(aqius, user.thresholds.aqi)+" AQI "+aq.aqi+", PM2.5 "+aq.pm25+"µm/m3",
+        return aq.aqius <= 50 ? []: [
+            "🏭"+getAlertLevel(aq.aqius, user.thresholds.aqi)+" AQI "+aq.aqius+", PM2.5 "+aq.pm25+"µm/m3",
             "🏠🚫🪟 Close windows, use air purifier",
             this.getActivityAlert("🚴 Cycling", limit.cycling)||[],
             this.getActivityAlert("🏃‍♂️ Running", limit.running)||[],
