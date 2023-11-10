@@ -69,23 +69,20 @@ class AirSummary {
             cycling: this.calcUserVe(user.zones[2], age),
             running: this.calcUserVe(user.zones[2], age) * RUNNING_VE_RATIO
         };
-        console.log(user.zones);
-        console.log(ve);
         const limit = {
             walking: {
                 noMask: this.calcTimeLimit(ve.walking/ve.rest, aq.pm25, user.thresholds.pm25_24h),
-                withN95: this.calcTimeLimit(ve.walking/ve.rest, aq.pm25, true)
+                withN95: this.calcTimeLimit(ve.walking/ve.rest, aq.pm25, user.thresholds.pm25_24h, true)
             },
             running: {
-                noMask: this.calcTimeLimit(ve.running/ve.rest, aq.pm25),
-                withN95: this.calcTimeLimit(ve.running/ve.rest, aq.pm25, true)
+                noMask: this.calcTimeLimit(ve.running/ve.rest, aq.pm25, user.thresholds.pm25_24h),
+                withN95: this.calcTimeLimit(ve.running/ve.rest, aq.pm25, user.thresholds.pm25_24h, true)
             },
             cycling: {
-                noMask: this.calcTimeLimit(ve.cycling/ve.rest, aq.pm25+2),
-                withN95: this.calcTimeLimit(ve.cycling/ve.rest, aq.pm25+2, true)
+                noMask: this.calcTimeLimit(ve.cycling/ve.rest, aq.pm25+2, user.thresholds.pm25_24h),
+                withN95: this.calcTimeLimit(ve.cycling/ve.rest, aq.pm25+2, user.thresholds.pm25_24h, true)
             }
         };
-        console.log(limit);
         return aq.aqius <= 50 ? []: [
             "🏭"+getAlertLevel(aq.aqius, user.thresholds.aqi)+" AQI "+aq.aqius+", PM2.5 "+aq.pm25+"µm/m3",
             "🏠🚫🪟 Close windows, use air purifier",
