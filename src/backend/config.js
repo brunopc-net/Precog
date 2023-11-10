@@ -54,7 +54,7 @@ const config = {
             ],
             pm25_24h: 35
         },
-        alert_schedule: ["08", "12", "16", "20"]
+        alert_schedule: ["08", "12", "16", "20", "22"]
     },
     api:{
         twillio: {
