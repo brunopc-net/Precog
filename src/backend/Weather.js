@@ -65,6 +65,9 @@ class AirSummary {
     }
 
     getAlerts(aq, forecast_amount, user){
+        if(aq.aqius <= 50)
+            return [];
+
         const age = this.calcUserAge(user.birth);
         const ve = {
             rest: this.calcUserVe(user.zones[0], age),
@@ -86,13 +89,16 @@ class AirSummary {
                 withN95: this.calcTimeLimit(ve.cycling/ve.rest, aq.pm25+2, user.thresholds.pm25_24h, true)
             }
         };
-        return aq.aqius <= 50 ? []: [
+        const alerts = [
             "🏭"+getAlertLevel(aq.aqius, user.thresholds.aqi)+" AQI "+aq.aqius+", PM2.5 "+aq.pm25+"µm/m3",
-            "🏠🚫🪟 Close windows, use air purifier",
+        ];
+        if(aq.aqius > 100)
+            alerts.push("🏠🚫🪟 Close windows, use air purifier");
+        return alerts.concat([
             this.getActivityAlert("🚴 Cycling", limit.cycling, forecast_amount)||[],
             this.getActivityAlert("🏃‍♂️ Running", limit.running, forecast_amount)||[],
             this.getActivityAlert("🏞️ Outside", limit.walking, forecast_amount)||[]
-        ];
+        ])
     }
 
     getActivityAlert(activity, limit, forecast_amount){
