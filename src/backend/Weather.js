@@ -8,6 +8,8 @@ function getTimeString(minutes_amount) {
     var rhours = Math.floor(hours);
     var rminutes = Math.round((hours - rhours) * 60);
 
+    if(rminutes < 10)
+        rminutes = "0"+rminutes
     if (rhours > 0)
         return rhours+"h"+rminutes;
         
@@ -94,6 +96,7 @@ class AirSummary {
     }
 
     getActivityAlert(activity, limit, forecast_amount){
+        //Doesn't make sense to have a limit over forecasted time
         if(limit.noMask < forecast_amount){
             const alert = "😷"+activity+": N95 after "+getTimeString(limit.noMask*60);
             return limit.withN95 >= forecast_amount ? alert :
@@ -107,13 +110,7 @@ class AirSummary {
         if(mask){
             currentRisk *= N95_RISK;
         }
-        const limit = maxRisk/currentRisk
-
-        //Doesn't make sense to have a limit over forecasted time
         return Math.round((maxRisk/currentRisk)*100)/100;
-
-        //TODO remove
-        //return limit > config.forecast_amount ? "None" : Math.round((maxRisk/currentRisk)*100)/100;
     }
 
     calcRisk(pm25){
