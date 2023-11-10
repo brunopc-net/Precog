@@ -9,9 +9,9 @@ function getTimeString(minutes_amount) {
     var rminutes = Math.round((hours - rhours) * 60);
 
     if (rhours > 0)
-        return rhours+"h"+rminutes+"min";
+        return rhours+"h"+rminutes;
         
-    return rminutes+"min";
+    return rminutes;
 }
 
 function between(metric, threshold1, threshold2){
@@ -36,12 +36,12 @@ function getAlertLevel(metric, thresholds){
 }
 
 class AirSummary {
-    constructor(aqius, user){
+    constructor(aqius, forecast_amount, user){
         const summary = {
             aqius: aqius,
             pm25: this.calcPM25(aqius)
         }
-        Object.assign(summary, {alerts: this.getAlerts(summary, user)})
+        Object.assign(summary, {alerts: this.getAlerts(summary, forecast_amount, user)})
         return summary;
     }
 
@@ -62,7 +62,7 @@ class AirSummary {
         return Math.round(pm25*10)/10;
     }
 
-    getAlerts(aq, user){
+    getAlerts(aq, forecast_amount, user){
         const age = this.calcUserAge(user.birth);
         const ve = {
             rest: this.calcUserVe(user.zones[0], age),
@@ -87,16 +87,16 @@ class AirSummary {
         return aq.aqius <= 50 ? []: [
             "🏭"+getAlertLevel(aq.aqius, user.thresholds.aqi)+" AQI "+aq.aqius+", PM2.5 "+aq.pm25+"µm/m3",
             "🏠🚫🪟 Close windows, use air purifier",
-            this.getActivityAlert("🚴 Cycling", limit.cycling)||[],
-            this.getActivityAlert("🏃‍♂️ Running", limit.running)||[],
-            this.getActivityAlert("🏞️ Outside", limit.walking)||[]
+            this.getActivityAlert("🚴 Cycling", limit.cycling, forecast_amount)||[],
+            this.getActivityAlert("🏃‍♂️ Running", limit.running, forecast_amount)||[],
+            this.getActivityAlert("🏞️ Outside", limit.walking, forecast_amount)||[]
         ];
     }
 
-    getActivityAlert(activity, limit){
-        if(limit.withN95 !== "None"){
+    getActivityAlert(activity, limit, forecast_amount){
+        if(limit.noMask < forecast_amount){
             const alert = "😷"+activity+": N95 after "+getTimeString(limit.noMask*60);
-            return limit.withN95 === "None" ? alert:
+            return limit.withN95 >= forecast_amount ? alert :
                 alert+", max "+getTimeString(limit.withN95*60);
         }
     }
@@ -366,6 +366,7 @@ module.exports = class Weather {
             summary: {
                 air: new AirSummary(
                     aqius,
+                    forecast.length,
                     config.user
                 ),
                 uv: new UvSummary(
