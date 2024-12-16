@@ -77,10 +77,12 @@ const config = {
         weatherapi: {
             req: {
                 method: 'GET',
-                url: 'https://weatherapi-com.p.rapidapi.com/forecast.json',
+                url: 'http://api.weatherapi.com/v1/forecast.json',
                 params: {
+                  key: args.WEATHER_API_KEY,
                   q: "Montreal",
-                  days: '2'
+                  days: '3',
+                  aqi: "yes"
                 },
                 headers: {
                   'X-RapidAPI-Key': args.WEATHER_API_KEY,
