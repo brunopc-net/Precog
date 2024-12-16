@@ -83,10 +83,6 @@ const config = {
                   q: "Montreal",
                   days: '3',
                   aqi: "yes"
-                },
-                headers: {
-                  'X-RapidAPI-Key': args.WEATHER_API_KEY,
-                  'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
                 }
             }
         }
